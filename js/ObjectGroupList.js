@@ -146,6 +146,14 @@ Ext.define('PMG.ObjectGroupList', {
 		    dataIndex: 'name',
 		    renderer: Ext.String.htmlEncode,
 		},
+		{
+		    header: gettext('Description'),
+		    sortable: true,
+		    flex: 1,
+		    dataIndex: 'info',
+		    renderer: Ext.String.htmlEncode,
+		    hidden: true,
+		},
 	    ],
 	    listeners: {
 		itemdblclick: function() {
