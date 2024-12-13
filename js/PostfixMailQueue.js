@@ -155,16 +155,19 @@ Ext.define('PMG.Postfix.MailQueue', {
 	    header: gettext('Sender'),
 	    flex: 2,
 	    dataIndex: 'sender',
+	    renderer: Ext.htmlEncode,
 	},
 	{
 	    header: gettext('Receiver'),
 	    flex: 2,
 	    dataIndex: 'receiver',
+	    renderer: Ext.htmlEncode,
 	},
 	{
 	    header: gettext('Reason'),
 	    flex: 8,
 	    dataIndex: 'reason',
+	    renderer: Ext.htmlEncode,
 	},
     ],
 
