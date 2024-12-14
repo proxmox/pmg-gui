@@ -1,3 +1,16 @@
+pmg-gui (4.1.2) bookworm; urgency=medium
+
+  * dkim settings: improve label for signing domain source selection.
+
+  * ui: trim whitespaces when adding a subscription key.
+
+  * actions objects: fix typo in default body for notifications.
+
+  * mail queue: html-encode columns in renderer that are outside of our
+    control.
+
+ -- Proxmox Support Team <support@proxmox.com>  Sat, 14 Dec 2024 14:16:08 +0100
+
 pmg-gui (4.1.1) bookworm; urgency=medium
 
   * utils: anchor email address regex expression to avoid false positives due
