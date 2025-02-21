@@ -125,8 +125,7 @@ Ext.define('PMG.ObjectGroup', {
 	    },
 	    callback: reload,
 	    getRecordName: function(rec) {
-		return PMG.Utils.format_otype(rec.data.otype) +
-		    ': ' + rec.data.descr;
+		return PMG.Utils.format_otype_subject(rec.data.otype) + ': ' + rec.data.descr;
 	    },
 	    waitMsgTarget: me,
 	});

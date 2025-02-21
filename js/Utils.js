@@ -128,6 +128,11 @@ Ext.define('PMG.Utils', {
 	return icon + text;
     },
 
+    format_otype_subject: function(otype) {
+	let editor = PMG.Utils.object_editors[otype];
+	return editor.subject ?? 'unknown';
+    },
+
     format_otype: function(otype) {
 	let editor = PMG.Utils.object_editors[otype];
 	let iconCls = 'fa fa-question-circle';
