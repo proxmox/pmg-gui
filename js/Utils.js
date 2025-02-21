@@ -416,6 +416,12 @@ Ext.define('PMG.Utils', {
 		    allowBlank: false,
 		    reset: Ext.emptyFn,
 		},
+		{
+		    xtype: 'proxmoxcheckbox',
+		    name: 'only-content',
+		    fieldLabel: gettext("Ignore header information"),
+		    uncheckedValue: '0',
+		},
 	    ],
 	},
 	3004: {
