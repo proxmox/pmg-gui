@@ -376,6 +376,12 @@ Ext.define('PMG.Utils', {
 		    fieldLabel: gettext('Test String'),
 		    regexFieldReference: 'value',
 		},
+		{
+		    xtype: 'proxmoxcheckbox',
+		    name: 'top-part-only',
+		    fieldLabel: gettext("Only top level headers"),
+		    uncheckedValue: '0',
+		},
 	    ],
 	},
 	3003: {
