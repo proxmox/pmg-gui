@@ -1,4 +1,5 @@
 Ext.define('PMG.QuarantineNavigationTree', {
+
     extend: 'Ext.list.Tree',
     xtype: 'quarantinenavigationtree',
 
@@ -31,6 +32,13 @@ Ext.define('PMG.QuarantineNavigationTree', {
 			    leaf: true,
 			},
 		    ],
+		},
+		{
+		    text: gettext('Help'),
+		    iconCls: 'fa fa-support',
+		    path: 'pmgQuarantineAbout',
+		    leaf: true,
+		    expanded: true,
 		},
 	    ],
 	},

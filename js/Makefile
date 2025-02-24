@@ -31,6 +31,7 @@ JSSRC=							\
 	SpamQuarantine.js				\
 	UserBlackWhiteList.js				\
 	QuarantineView.js				\
+	QuarantineViewAbout.js				\
 	Dashboard.js					\
 	dashboard/MailProcessing.js			\
 	dashboard/NodeInfo.js				\
