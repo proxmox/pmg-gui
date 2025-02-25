@@ -4,41 +4,44 @@ Ext.define('PMG.QuarantineAboutPage', {
     xtype: 'pmgQuarantineAbout',
 
     bodyPadding: 10,
-    title: 'Proxmox Mail Gateway Quarantine Help',
+    bodyStyle: {
+	fontSize: '14px',
+    },
+
+    title: gettext('Proxmox Mail Gateway Quarantine Help'),
 
     html: Proxmox.Markdown.parse(
 `# About
-This is the email quarantine interface for end-users provided by your email provider.
+This is the end-user email quarantine interface provided by your email provider.
 
-Proxmox Mail Gateway is Software used to scan emails for threats like spam or viruses.
+Proxmox Mail Gateway is software that scans email for threats such as spam or viruses.
 
-Usually emails that contain viruses or are detected as being certain spam are blocked by your
+Typically, emails that contain viruses or are identified as specific spam are blocked by your
 provider.
-Emails that are not classified as certain spam may be put into quarantine, where the recipient can
-decide if they want to receive or delete them. In most setups you will receive a Spam Report email
-to notify you, if your address has mail put in its quarantine.
+Emails that are not classified as specific spam can be quarantined for the recipient to decide
+whether to receive or delete. In most setups, you will receive a spam report email notifying you
+when mail is quarantined for your address.
 
-Additionally you have the option to block or welcome certain addresses in general.
-* Welcoming, in the Whitelist menu, results in the mails being directly delivered,
-instead of being stored in quarantine.
-* Blocking, in the Blacklist menu, results in the mails being directly deleted,
-instead of being stored in quarantine.
+You also have the option to block or whitelist certain addresses:
 
+* Allow, in the Whitelist menu, results in the mail being delivered directly instead of being
+  quarantined.
+* Blocking, in the Blacklist menu, causes the messages to be deleted directly instead of being
+  quarantined.
 
-**Note:** The sending of Spam Report emails and this Webpage are controlled by your email provider.
+**Note:** The sending of *Spam Report* emails and this web application is controlled by your email
+provider.
 
-Proxmox Server Solutions GmbH develops the software and is not running mail services for users.
+Proxmox Server Solutions GmbH develops the software and does not operate email services for users.
 
-## Shortcuts
+## Keyboard Shortcuts
 
-When you have selected an entry in your quarantine you can use the following keyboard short-cuts
-in place of the buttons on top:
+Once you have selected an item in Quarantine, you can either use the dedicated buttons to deliver or
+delete the selected email, or use the following keyboard shortcuts instead:
 
-* **D:** Deliver the mail
-* **Delete:** Delete the mail
-* **B:** Add the sender to the Blocklist/Blacklist
-* **W:** Add the sender to the Welcomelist/Whitelist
+* <kbd>D</kbd>: Deliver the mail.
+* <kbd>Delete</kbd>: Delete the mail.
+* <kbd>B</kbd>: Add the sender to the Blocklist/Blacklist.
+* <kbd>W</kbd>: Add the sender to the Welcomelist/Whitelist.
 `),
-
 });
-

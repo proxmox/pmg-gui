@@ -274,3 +274,17 @@ a.download {
 .pmx-type-row td {
     padding: 3px;
 }
+
+/* As both background and foreground colors are set this works OK for light and dark mode */
+kbd {
+    background-color: #eff3fb;
+    color: #222;
+    border: 1px solid #b4b4b4;
+    border-radius: 1px;
+    display: inline-block;
+    font-size: 0.85em;
+    font-weight: 700;
+    line-height: 1;
+    padding: 2px 4px;
+    white-space: nowrap;
+}
