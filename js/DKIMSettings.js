@@ -53,7 +53,7 @@ Ext.define('PMG.SelectorViewer', {
     title: gettext('Selector'),
 
     width: 800,
-    resizable: true,
+    resizable: false,
 
     items: [
 	{
@@ -69,9 +69,7 @@ Ext.define('PMG.SelectorViewer', {
 	{
 	    xtype: 'textarea',
 	    editable: false,
-	    grow: true,
-	    growMin: 150,
-	    growMax: 400,
+	    height: 220,
 	    fieldLabel: gettext('DNS TXT Record'),
 	    name: 'record',
 	    value: 'Could not read private key!',
