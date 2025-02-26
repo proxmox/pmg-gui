@@ -10,6 +10,7 @@ Ext.define('PMG.ClamAVDatabaseConfig', {
 	me.add_text_row('dbmirror', gettext('Database Mirror'), {
 	    deleteEmpty: true,
 	    defaultValue: 'database.clamav.net',
+	    renderer: Ext.htmlEncode,
 	});
 
 	me.add_boolean_row('scriptedupdates', gettext('Incremental Download'), {

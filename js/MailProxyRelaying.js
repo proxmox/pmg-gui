@@ -10,6 +10,7 @@ Ext.define('PMG.MailProxyRelaying', {
 	me.add_text_row('relay', gettext('Default Relay'), {
 	    deleteEmpty: true,
 	    defaultValue: Proxmox.Utils.noneText,
+	    renderer: Ext.htmlEncode,
 	    onlineHelp: 'pmgconfig_mailproxy_relaying',
 	});
 

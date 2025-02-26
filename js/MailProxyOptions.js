@@ -22,6 +22,7 @@ Ext.define('PMG.MailProxyOptions', {
 	me.add_text_row('dnsbl_sites', gettext('DNSBL Sites'), {
 	    deleteEmpty: true,
 	    defaultValue: Proxmox.Utils.noneText,
+	    renderer: Ext.htmlEncode,
 	});
 
 	me.add_integer_row('dnsbl_threshold', gettext('DNSBL Threshold'), {
@@ -95,6 +96,7 @@ Ext.define('PMG.MailProxyOptions', {
 	me.add_text_row('banner', gettext('SMTPD Banner'), {
 	    deleteEmpty: true,
 	    defaultValue: 'ESMTP Proxmox',
+	    renderer: Ext.htmlEncode,
 	});
 
 	me.add_boolean_row('ndr_on_block', gettext('Send NDR on Blocked E-Mails'));

@@ -79,6 +79,7 @@ Ext.define('PMG.SystemOptions', {
 	me.add_text_row('email', gettext("Administrator EMail"), {
 	    deleteEmpty: true,
 	    defaultValue: Proxmox.Utils.noneText,
+	    renderer: Ext.htmlEncode,
 	});
 
 	me.add_text_row('admin-mail-from', gettext("'From:' for Admin Mail"), {
