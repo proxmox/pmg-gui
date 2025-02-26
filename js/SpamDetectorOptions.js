@@ -7,48 +7,50 @@ Ext.define('PMG.SpamDetectorOptions', {
     initComponent: function() {
 	var me = this;
 
-	me.add_boolean_row('use_awl', gettext('Use auto-whitelists'),
-			   { defaultValue: 0 });
+	me.add_boolean_row('use_awl', gettext('Use auto-whitelists'), {
+	    defaultValue: 0,
+	});
 
-	me.add_boolean_row('use_bayes', gettext('Use Bayesian filter'),
-			   { defaultValue: 0 });
+	me.add_boolean_row('use_bayes', gettext('Use Bayesian filter'), {
+	    defaultValue: 0,
+	});
 
-	me.add_boolean_row('rbl_checks', gettext('Use RBL checks'),
-			   { defaultValue: 1 });
+	me.add_boolean_row('rbl_checks', gettext('Use RBL checks'), {
+	    defaultValue: 1,
+	});
 
-	me.add_boolean_row('use_razor', gettext('Use Razor2 checks'),
-			   { defaultValue: 1 });
+	me.add_boolean_row('use_razor', gettext('Use Razor2 checks'), {
+	    defaultValue: 1,
+	});
 
 	me.add_boolean_row('extract_text', gettext('Extract Text from Attachments'));
 
-	me.add_integer_row('maxspamsize', gettext('Max Spam Size (bytes)'),
-			   {
- defaultValue: 256*1024,
-			     minValue: 64, deleteEmpty: true,
-});
+	me.add_integer_row('maxspamsize', gettext('Max Spam Size (bytes)'), {
+	    defaultValue: 256*1024,
+	    minValue: 64,
+	    deleteEmpty: true,
+	});
 
 	me.rows.languages = {
 	    required: true,
 	    header: gettext('Languages'),
 	    editor: 'PMG.SpamDetectorLanguages',
-	    renderer: function(value) {
-		return value || 'all';
-	    },
+	    renderer: value => value || 'all',
 	};
 
-	me.add_integer_row('bounce_score', gettext('Backscatter Score'),
-			   {
- defaultValue: 0,
-			     minValue: 0, maxValue: 1000,
-			     deleteEmpty: true,
-});
+	me.add_integer_row('bounce_score', gettext('Backscatter Score'), {
+	    defaultValue: 0,
+	    minValue: 0,
+	    maxValue: 1000,
+	    deleteEmpty: true,
+	});
 
-	me.add_integer_row('clamav_heuristic_score', gettext('Heuristic Score'),
-			   {
- defaultValue: 3,
-			     minValue: 0, maxValue: 1000,
-			     deleteEmpty: true,
-});
+	me.add_integer_row('clamav_heuristic_score', gettext('Heuristic Score'), {
+	    defaultValue: 3,
+	    minValue: 0,
+	    maxValue: 1000,
+	    deleteEmpty: true,
+	});
 
 	var baseurl = '/config/spam';
 

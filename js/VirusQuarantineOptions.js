@@ -7,17 +7,19 @@ Ext.define('PMG.VirusQuarantineOptions', {
     initComponent: function() {
 	var me = this;
 
-	me.add_integer_row('lifetime', gettext('Lifetime (days)'),
-			   {
- minValue: 1, defaultValue: 7,
-			     deleteEmpty: true,
-});
+	me.add_integer_row('lifetime', gettext('Lifetime (days)'), {
+	    minValue: 1,
+	    defaultValue: 7,
+	    deleteEmpty: true,
+	});
 
-	me.add_boolean_row('viewimages', gettext('View images'),
-			   { defaultValue: 1 });
+	me.add_boolean_row('viewimages', gettext('View images'), {
+	    defaultValue: 1,
+	});
 
-	me.add_boolean_row('allowhrefs', gettext('Allow HREFs'),
-			   { defaultValue: 1 });
+	me.add_boolean_row('allowhrefs', gettext('Allow HREFs'), {
+	    defaultValue: 1,
+	});
 
 	var baseurl = '/config/virusquar';
 

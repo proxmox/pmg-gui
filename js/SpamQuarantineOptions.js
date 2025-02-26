@@ -18,18 +18,15 @@ Ext.define('PMG.SpamQuarantineOptions', {
     },
 
     initComponent: function() {
-	var me = this;
+	let me = this;
 
-	me.add_integer_row('lifetime', gettext('Lifetime (days)'),
-			   {
- minValue: 1, defaultValue: 7,
-			     deleteEmpty: true,
-});
+	me.add_integer_row('lifetime', gettext('Lifetime (days)'), {
+	    minValue: 1,
+	    defaultValue: 7,
+	    deleteEmpty: true,
+	});
 
-	var render_authmode = function(value) {
-	    return me.authmodeTextHash[value] || value;
-	};
-
+	let render_authmode = value => me.authmodeTextHash[value] || value;
 	me.add_combobox_row('authmode', gettext('Authentication mode'), {
 	    defaultValue: 'ticket',
 	    renderer: render_authmode,
@@ -39,10 +36,7 @@ Ext.define('PMG.SpamQuarantineOptions', {
 		['ldapticket', render_authmode('ldapticket')]],
 	});
 
-	var render_reportstyle = function(value) {
-	    return me.reportstyleTextHash[value] || value;
-	};
-
+	let render_reportstyle = value => me.reportstyleTextHash[value] || value;
 	me.add_combobox_row('reportstyle', gettext('User Spamreport Style'), {
 	    defaultValue: 'verbose',
 	    renderer: render_reportstyle,
@@ -50,23 +44,30 @@ Ext.define('PMG.SpamQuarantineOptions', {
 		['none', render_reportstyle('none')],
 		['short', render_reportstyle('short')],
 		['verbose', render_reportstyle('verbose')],
-		['custom', render_reportstyle('custom')]],
+		['custom', render_reportstyle('custom')],
+	    ],
 	});
 
-	me.add_text_row('hostname', gettext('Quarantine Host'),
-			{ deleteEmpty: true, defaultValue: Proxmox.Utils.noneText });
-	me.add_integer_row('port', gettext('Quarantine port'),
-			{ deleteEmpty: true, defaultValue: Proxmox.Utils.defaultText });
-	me.add_text_row('mailfrom', gettext("EMail 'From:'"),
-			{ deleteEmpty: true, defaultValue: Proxmox.Utils.noneText });
+	me.add_text_row('hostname', gettext('Quarantine Host'), {
+	    deleteEmpty: true,
+	    defaultValue: Proxmox.Utils.noneText,
+	});
+	me.add_integer_row('port', gettext('Quarantine port'), {
+	    deleteEmpty: true,
+	    defaultValue: Proxmox.Utils.defaultText,
+	});
+	me.add_text_row('mailfrom', gettext("EMail 'From:'"), {
+	    deleteEmpty: true,
+	    defaultValue: Proxmox.Utils.noneText,
+	});
+	me.add_boolean_row('viewimages', gettext('View images'), {
+	    defaultValue: 1,
+	});
+	me.add_boolean_row('allowhrefs', gettext('Allow HREFs'), {
+	    defaultValue: 1,
+	});
 
-	me.add_boolean_row('viewimages', gettext('View images'),
-			   { defaultValue: 1 });
-
-	me.add_boolean_row('allowhrefs', gettext('Allow HREFs'),
-			   { defaultValue: 1 });
-
-	var baseurl = '/config/spamquar';
+	let baseurl = '/config/spamquar';
 
 	me.selModel = Ext.create('Ext.selection.RowModel', {});
 

@@ -7,11 +7,14 @@ Ext.define('PMG.ClamAVDatabaseConfig', {
     initComponent: function() {
 	var me = this;
 
-	me.add_text_row('dbmirror', gettext('Database Mirror'),
-			{ deleteEmpty: true, defaultValue: 'database.clamav.net' });
+	me.add_text_row('dbmirror', gettext('Database Mirror'), {
+	    deleteEmpty: true,
+	    defaultValue: 'database.clamav.net',
+	});
 
-	me.add_boolean_row('scriptedupdates', gettext('Incremental Download'),
-			   { defaultValue: 0 });
+	me.add_boolean_row('scriptedupdates', gettext('Incremental Download'), {
+	    defaultValue: 0,
+	});
 
 	var baseurl = '/config/clamav';
 
@@ -38,8 +41,7 @@ Ext.define('PMG.ClamAVDatabaseConfig', {
 
 Ext.define('pmg-clamav-database', {
     extend: 'Ext.data.Model',
-    fields: ['name', 'type', 'build_time', 'version',
-	      { name: 'nsigs', type: 'integer' }],
+    fields: ['name', 'type', 'build_time', 'version', { name: 'nsigs', type: 'integer' }],
     idProperty: 'name',
 });
 
@@ -52,7 +54,7 @@ Ext.define('PMG.ClamAVDatabaseStatus', {
     reload: function() {
 	var me = this;
 
-        me.store.load();
+	me.store.load();
     },
 
     initComponent: function() {

@@ -52,8 +52,7 @@ Ext.define('PMG.SystemOptions', {
 		    name: name,
 		    deleteEmpty: true,
 		    emptyText: Proxmox.Utils.noneText,
-		    labelWidth: Proxmox.Utils.compute_min_label_width(
-			text, opts.labelWidth),
+		    labelWidth: Proxmox.Utils.compute_min_label_width(text, opts.labelWidth),
 		    fieldLabel: text,
 		},
 	    },
@@ -63,20 +62,30 @@ Ext.define('PMG.SystemOptions', {
     initComponent: function() {
 	let me = this;
 
-	me.add_boolean_row('dailyreport', gettext('Send daily admin reports'),
-			   { defaultValue: 1 });
+	me.add_boolean_row('dailyreport', gettext('Send daily admin reports'), {
+	    defaultValue: 1,
+	});
 
-	me.add_boolean_row('advfilter', gettext('Use advanced statistic filters'),
-			   { defaultValue: 0 });
+	me.add_boolean_row('advfilter', gettext('Use advanced statistic filters'), {
+	    defaultValue: 0,
+	});
 
-	me.add_integer_row('statlifetime', gettext('User statistic lifetime (days)'),
-			   { minValue: 1, defaultValue: 7, deleteEmpty: true });
+	me.add_integer_row('statlifetime', gettext('User statistic lifetime (days)'), {
+	    minValue: 1,
+	    defaultValue: 7,
+	    deleteEmpty: true,
+	});
 
-	me.add_text_row('email', gettext("Administrator EMail"),
-			{ deleteEmpty: true, defaultValue: Proxmox.Utils.noneText });
+	me.add_text_row('email', gettext("Administrator EMail"), {
+	    deleteEmpty: true,
+	    defaultValue: Proxmox.Utils.noneText,
+	});
 
-	me.add_text_row('admin-mail-from', gettext("'From:' for Admin Mail"),
-			{ deleteEmpty: true, defaultValue: Proxmox.Utils.noneText, renderer: Ext.htmlEncode });
+	me.add_text_row('admin-mail-from', gettext("'From:' for Admin Mail"), {
+	    deleteEmpty: true,
+	    defaultValue: Proxmox.Utils.noneText,
+	    renderer: Ext.htmlEncode,
+	});
 
 	me.add_proxy_row('http_proxy', gettext("HTTP proxy"));
 
