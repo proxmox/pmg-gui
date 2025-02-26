@@ -1,3 +1,9 @@
+pmg-gui (4.1.4) bookworm; urgency=medium
+
+  * html-encode various text-based object-grid rows to avoid visual glitches
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 26 Feb 2025 12:27:38 +0100
+
 pmg-gui (4.1.3) bookworm; urgency=medium
 
   * rule objects: avoid showing remove icon inside prompt confirmation text.
