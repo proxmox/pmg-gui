@@ -29,6 +29,26 @@ Ext.define('PMG.UserEdit', {
 	};
     },
 
+    viewModel: {
+	data: {
+	    realm: 'pmg',
+	},
+	formulas: {
+	    maySetPassword: function(get) {
+		let realm = get('realm');
+
+		let view = this.getView();
+		let realmStore = view.down('pmxRealmComboBox').getStore();
+		if (realmStore.isLoaded()) {
+		    let rec = realmStore.findRecord('realm', realm, 0, false, true, true);
+		    return rec.data.type === 'pmg' && view.isCreate;
+		} else {
+		    return view.isCreate;
+		}
+	    },
+	},
+    },
+
     items: {
 	xtype: 'inputpanel',
 	column1: [
@@ -58,9 +78,9 @@ Ext.define('PMG.UserEdit', {
 			field.next().validate();
                     },
 		},
-		cbind: {
-		    hidden: '{!isCreate}',
-		    disabled: '{!isCreate}',
+		bind: {
+		    hidden: '{!maySetPassword}',
+		    disabled: '{!maySetPassword}',
 		},
 	    },
 	    {
@@ -72,9 +92,9 @@ Ext.define('PMG.UserEdit', {
 		initialPassField: 'password',
 		allowBlank: false,
 		submitValue: false,
-		cbind: {
-		    hidden: '{!isCreate}',
-		    disabled: '{!isCreate}',
+		bind: {
+		    hidden: '{!maySetPassword}',
+		    disabled: '{!maySetPassword}',
 		},
 	    },
 	    {
@@ -111,6 +131,19 @@ Ext.define('PMG.UserEdit', {
 	],
 
 	column2: [
+	    {
+		xtype: 'pmxRealmComboBox',
+		reference: 'realmfield',
+		name: 'realm',
+		baseUrl: '/access/auth-realm',
+		bind: {
+		    value: '{realm}',
+		},
+		cbind: {
+		    disabled: '{!isCreate}',
+		    hidden: '{!isCreate}',
+		},
+	    },
 	    {
 		xtype: 'proxmoxtextfield',
 		name: 'firstname',
@@ -170,7 +203,7 @@ Ext.define('PMG.UserEdit', {
 	}
 
 	if (me.isCreate) {
-	    values.userid = values.username + '@pmg';
+	    values.userid = values.username + '@' + values.realm;
 	}
 
 	delete values.username;
