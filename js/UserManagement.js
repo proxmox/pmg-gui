@@ -34,5 +34,13 @@ Ext.define('PMG.UserManagement', {
 	    itemId: 'pop',
 	    iconCls: 'fa fa-reply-all',
 	},
+	{
+	    xtype: 'pmxAuthView',
+	    title: gettext('Realms'),
+	    itemId: 'realms',
+	    baseUrl: '/access/auth-realm',
+	    storeBaseUrl: '/access/auth-realm',
+	    iconCls: 'fa fa-address-book-o',
+	},
     ],
 });

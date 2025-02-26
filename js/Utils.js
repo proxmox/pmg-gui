@@ -868,6 +868,22 @@ Ext.define('PMG.Utils', {
     constructor: function() {
 	var me = this;
 
+	// use oidc instead of openid
+	Proxmox.Schema.authDomains.oidc = Proxmox.Schema.authDomains.openid;
+	Proxmox.Schema.authDomains.oidc.useTypeInUrl = false;
+	delete Proxmox.Schema.authDomains.openid;
+
+	// Disable LDAP/AD as a realm until LDAP/AD login is implemented
+	Proxmox.Schema.authDomains.ldap.add = false;
+	Proxmox.Schema.authDomains.ad.add = false;
+
+	Proxmox.Schema.authDomains.pam.edit = false;
+	Proxmox.Schema.authDomains.pmg = {
+	    add: false,
+	    edit: false,
+	    sync: false,
+	};
+
 	// do whatever you want here
 	Proxmox.Utils.override_task_descriptions({
 	    applycustomscores: ['', gettext('Apply custom SpamAssassin scores')],
