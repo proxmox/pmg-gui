@@ -76,7 +76,7 @@ Ext.define('PMG.SystemOptions', {
 			{ deleteEmpty: true, defaultValue: Proxmox.Utils.noneText });
 
 	me.add_text_row('admin-mail-from', gettext("'From:' for Admin Mail"),
-			{ deleteEmpty: true, defaultValue: Proxmox.Utils.noneText });
+			{ deleteEmpty: true, defaultValue: Proxmox.Utils.noneText, renderer: Ext.htmlEncode });
 
 	me.add_proxy_row('http_proxy', gettext("HTTP proxy"));
 
