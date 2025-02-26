@@ -2,6 +2,21 @@ Ext.define('PMG.LoginView', {
     extend: 'Ext.container.Container',
     xtype: 'loginview',
 
+    viewModel: {
+	data: {
+	    oidc: false,
+	},
+	formulas: {
+	    button_text: function(get) {
+		if (get("oidc") === true) {
+		    return gettext("Login (OpenID Connect redirect)");
+		} else {
+		    return gettext("Login");
+		}
+	    },
+	},
+    },
+
     controller: {
 	xclass: 'Ext.app.ViewController',
 
@@ -46,50 +61,77 @@ Ext.define('PMG.LoginView', {
 
 	submitForm: async function() {
 	    let me = this;
-	    let view = me.getView();
-	    let loginForm = me.lookupReference('loginForm');
-	    var unField = me.lookupReference('usernameField');
-	    var saveunField = me.lookupReference('saveunField');
 
-	    if (loginForm.isValid()) {
-		if (loginForm.isVisible()) {
-		    loginForm.mask(gettext('Please wait...'), 'x-mask-loading');
+	    let loginForm = this.lookupReference('loginForm');
+	    let unField = this.lookupReference('usernameField');
+	    let saveunField = this.lookupReference('saveunField');
+	    let view = this.getView();
+
+	    if (!loginForm.isValid()) {
+		return;
+	    }
+
+	    if (loginForm.isVisible()) {
+		loginForm.mask(gettext('Please wait...'), 'x-mask-loading');
+	    }
+
+	    // set or clear username for admin view
+	    if (view.targetview !== 'quarantineview') {
+		let sp = Ext.state.Manager.getProvider();
+		if (saveunField.getValue() === true) {
+		    sp.set(unField.getStateId(), unField.getValue());
+		} else {
+		    sp.clear(unField.getStateId());
 		}
+		sp.set(saveunField.getStateId(), saveunField.getValue());
+	    }
 
-		// set or clear username for admin view
-		if (view.targetview !== 'quarantineview') {
-		    var sp = Ext.state.Manager.getProvider();
-		    if (saveunField.getValue() === true) {
-			sp.set(unField.getStateId(), unField.getValue());
-		    } else {
-			sp.clear(unField.getStateId());
-		    }
-		    sp.set(saveunField.getStateId(), saveunField.getValue());
+	    let creds = loginForm.getValues();
+
+	    if (this.getViewModel().data.oidc === true) {
+		const redirectURL = location.origin;
+		Proxmox.Utils.API2Request({
+		    url: '/api2/extjs/access/oidc/auth-url',
+		    params: {
+			realm: creds.realm,
+			"redirect-url": redirectURL,
+		    },
+		    method: 'POST',
+		    success: function(resp, opts) {
+			window.location = resp.result.data;
+		    },
+		    failure: function(resp, opts) {
+			Proxmox.Utils.authClear();
+			loginForm.unmask();
+			Ext.MessageBox.alert(
+			    gettext('Error'),
+			    gettext('OpenID Connect redirect failed.') + `<br>${resp.htmlStatus}`,
+			);
+		    },
+		});
+		return;
+	    }
+
+	    try {
+		let resp = await Proxmox.Async.api2({
+		    url: '/api2/extjs/access/ticket',
+		    params: creds,
+		    method: 'POST',
+		});
+
+		let data = resp.result.data;
+		if (data.ticket.startsWith('PMG:!tfa!')) {
+		    data = await me.performTFAChallenge(data);
 		}
-
-		let creds = loginForm.getValues();
-
-		try {
-		    let resp = await Proxmox.Async.api2({
-			url: '/api2/extjs/access/ticket',
-			params: creds,
-			method: 'POST',
-		    });
-
-		    let data = resp.result.data;
-		    if (data.ticket.startsWith('PMG:!tfa!')) {
-			data = await me.performTFAChallenge(data);
-		    }
-		    PMG.Utils.updateLoginData(data);
-		    PMG.app.changeView(view.targetview);
-		} catch (error) {
-		    Proxmox.Utils.authClear();
-		    loginForm.unmask();
-		    Ext.MessageBox.alert(
-			gettext('Error'),
-			gettext('Login failed. Please try again'),
-		    );
-		}
+		PMG.Utils.updateLoginData(data);
+		PMG.app.changeView(view.targetview);
+	    } catch (error) {
+		Proxmox.Utils.authClear();
+		loginForm.unmask();
+		Ext.MessageBox.alert(
+		    gettext('Error'),
+		    gettext('Login failed. Please try again'),
+		);
 	    }
 	},
 
@@ -113,6 +155,15 @@ Ext.define('PMG.LoginView', {
 	    });
 
 	    return resp.result.data;
+	},
+
+	success: function(data) {
+	    let me = this;
+	    let view = me.getView();
+	    let handler = view.handler || Ext.emptyFn;
+	    handler.call(me, data);
+	    PMG.Utils.updateLoginData(data);
+	    PMG.app.changeView(view.targetview);
 	},
 
 	openQuarantineLinkWindow: function() {
@@ -150,6 +201,14 @@ Ext.define('PMG.LoginView', {
 		    window.location.reload();
 		},
 	    },
+	    'field[name=realm]': {
+		change: function(f, value) {
+		    let record = f.store.getById(value);
+		    if (record === undefined) return;
+		    let data = record.data;
+		    this.getViewModel().set("oidc", data.type === "oidc");
+		},
+	    },
 	    'button[reference=quarantineButton]': {
 		click: 'openQuarantineLinkWindow',
 	    },
@@ -161,18 +220,53 @@ Ext.define('PMG.LoginView', {
 		    let me = this;
 		    let view = me.getView();
 		    if (view.targetview !== 'quarantineview') {
-			var sp = Ext.state.Manager.getProvider();
-			var checkboxField = this.lookupReference('saveunField');
-			var unField = this.lookupReference('usernameField');
+			let sp = Ext.state.Manager.getProvider();
+			let checkboxField = this.lookupReference('saveunField');
+			let unField = this.lookupReference('usernameField');
 
-			var checked = sp.get(checkboxField.getStateId());
+			let checked = sp.get(checkboxField.getStateId());
 			checkboxField.setValue(checked);
 
 			if (checked === true) {
-			    var username = sp.get(unField.getStateId());
+			    let username = sp.get(unField.getStateId());
 			    unField.setValue(username);
-			    var pwField = this.lookupReference('passwordField');
+			    let pwField = this.lookupReference('passwordField');
 			    pwField.focus();
+			}
+
+			let auth = Proxmox.Utils.getOpenIDRedirectionAuthorization();
+			if (auth !== undefined) {
+			    Proxmox.Utils.authClear();
+
+			    let loginForm = this.lookupReference('loginForm');
+			    loginForm.mask(gettext('OpenID Connect login - please wait...'), 'x-mask-loading');
+
+			    const redirectURL = location.origin;
+
+			    Proxmox.Utils.API2Request({
+				url: '/api2/extjs/access/oidc/login',
+				params: {
+				    state: auth.state,
+				    code: auth.code,
+				    "redirect-url": redirectURL,
+				},
+				method: 'POST',
+				failure: function(response) {
+				    loginForm.unmask();
+				    let error = response.htmlStatus;
+				    Ext.MessageBox.alert(
+					gettext('Error'),
+					gettext('OpenID Connect login failed, please try again') + `<br>${error}`,
+					() => { window.location = redirectURL; },
+				    );
+				},
+				success: function(response, options) {
+				    loginForm.unmask();
+				    let data = response.result.data;
+				    history.replaceState(null, '', redirectURL);
+				    me.success(data);
+				},
+			    });
 			}
 		    }
 		},
@@ -250,6 +344,10 @@ Ext.define('PMG.LoginView', {
 			    reference: 'usernameField',
 			    stateId: 'login-username',
 			    inputAttrTpl: 'autocomplete=username',
+			    bind: {
+				visible: "{!oidc}",
+				disabled: "{oidc}",
+			    },
 			},
 			{
 			    xtype: 'textfield',
@@ -258,6 +356,17 @@ Ext.define('PMG.LoginView', {
 			    name: 'password',
 			    reference: 'passwordField',
 			    inputAttrTpl: 'autocomplete=current-password',
+			    bind: {
+				visible: "{!oidc}",
+				disabled: "{oidc}",
+			    },
+			},
+			{
+			    xtype: 'pmxRealmComboBox',
+			    reference: 'realmfield',
+			    name: 'realm',
+			    baseUrl: '/access/auth-realm',
+			    value: 'pam',
 			},
 			{
 			    xtype: 'proxmoxLanguageSelector',
@@ -266,12 +375,6 @@ Ext.define('PMG.LoginView', {
 			    name: 'lang',
 			    submitValue: false,
 			},
-			{
-			    xtype: 'hiddenfield',
-			    reference: 'realmfield',
-			    name: 'realm',
-			    value: 'pmg',
-                        },
 		    ],
 		    buttons: [
 			{
@@ -283,15 +386,19 @@ Ext.define('PMG.LoginView', {
 			    labelAlign: 'right',
 			    labelWidth: 150,
 			    submitValue: false,
+			    bind: {
+				visible: "{!oidc}",
+			    },
 			},
 			{
 			    text: gettext('Request Quarantine Link'),
 			    reference: 'quarantineButton',
 			},
 			{
-			    text: gettext('Login'),
+			    bind: {
+				text: "{button_text}",
+			    },
 			    reference: 'loginButton',
-			    formBind: true,
 			},
 		    ],
 		},
