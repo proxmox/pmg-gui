@@ -19,15 +19,15 @@ Proxmox Mail Gateway is software that scans email for threats such as spam or vi
 Typically, emails that contain viruses or are identified as specific spam are blocked by your
 provider.
 Emails that are not classified as specific spam can be quarantined for the recipient to decide
-whether to receive or delete. In most setups, you will receive a spam report email notifying you
-when mail is quarantined for your address.
+whether to receive or delete them. In most setups, you will receive a spam report email notifying
+you when mail is quarantined for your address.
 
 You also have the option to block or whitelist certain addresses:
 
-* Allow, in the Whitelist menu, results in the mail being delivered directly instead of being
-  quarantined.
-* Blocking, in the Blacklist menu, causes the messages to be deleted directly instead of being
-  quarantined.
+* Allow, in the Whitelist menu, results in mails from these addresses to be delivered directly
+  instead of being quarantined.
+* Blocking, in the Blacklist menu, results in mails from these addresses to be deleted directly
+  instead of being quarantined.
 
 **Note:** The sending of *Spam Report* emails and this web application is controlled by your email
 provider.
