@@ -204,7 +204,9 @@ Ext.define('PMG.LoginView', {
 	    'field[name=realm]': {
 		change: function(f, value) {
 		    let record = f.store.getById(value);
-		    if (record === undefined) return;
+		    if (!record) {
+			return;
+		    }
 		    let data = record.data;
 		    this.getViewModel().set("oidc", data.type === "oidc");
 		},
