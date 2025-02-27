@@ -14,6 +14,9 @@ Ext.define('PMG.LoginView', {
 		    return gettext("Login");
 		}
 	    },
+	    showSaveUser: function(get) {
+		return this.getView().targetview !== 'quarantineview' && !get('oidc');
+	    },
 	},
     },
 
@@ -392,7 +395,7 @@ Ext.define('PMG.LoginView', {
 			    labelWidth: 150,
 			    submitValue: false,
 			    bind: {
-				visible: "{!oidc}",
+				visible: "{showSaveUser}",
 			    },
 			},
 			{
