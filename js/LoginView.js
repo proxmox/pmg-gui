@@ -34,6 +34,10 @@ Ext.define('PMG.LoginView', {
 	    // hide save username field for quarantine view
 	    me.lookup('saveunField').setVisible(false);
 
+	    // disable/hide realm field for quarantine view
+	    realmfield.setDisabled(true);
+	    realmfield.setHidden(true);
+
 	    realmfield.setValue('quarantine');
 
 	    // try autologin with quarantine ticket from URL
@@ -51,7 +55,6 @@ Ext.define('PMG.LoginView', {
 	    let loginwin = me.lookup('loginwindow');
 	    loginwin.autoShow = false;
 	    loginwin.setVisible(false);
-	    realmfield.setDisabled(true);
 
 	    me.lookup('usernameField').setValue(username);
 	    me.lookup('passwordField').setValue(ticket);
