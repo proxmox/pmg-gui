@@ -1,3 +1,9 @@
+pmg-gui (4.1.6) bookworm; urgency=medium
+
+  * login view: various fixes related to the quarantine view login
+
+ -- Proxmox Support Team <support@proxmox.com>  Thu, 27 Feb 2025 11:20:53 +0100
+
 pmg-gui (4.1.5) bookworm; urgency=medium
 
   * user edit: increase minimum length for new passwords to 8 characters,
