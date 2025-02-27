@@ -7,7 +7,7 @@ Ext.define('PMG.LoginView', {
 	    oidc: false,
 	},
 	formulas: {
-	    button_text: function(get) {
+	    buttonText: function(get) {
 		if (get("oidc") === true) {
 		    return gettext("Login (OpenID Connect redirect)");
 		} else {
@@ -396,7 +396,7 @@ Ext.define('PMG.LoginView', {
 			},
 			{
 			    bind: {
-				text: "{button_text}",
+				text: "{buttonText}",
 			    },
 			    reference: 'loginButton',
 			},
