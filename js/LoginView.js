@@ -374,7 +374,6 @@ Ext.define('PMG.LoginView', {
 			    reference: 'realmfield',
 			    name: 'realm',
 			    baseUrl: '/access/auth-realm',
-			    value: 'pam',
 			},
 			{
 			    xtype: 'proxmoxLanguageSelector',

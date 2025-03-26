@@ -40,6 +40,7 @@ Ext.define('PMG.UserManagement', {
 	    itemId: 'realms',
 	    baseUrl: '/access/auth-realm',
 	    storeBaseUrl: '/access/auth-realm',
+	    showDefaultRealm: true,
 	    iconCls: 'fa fa-address-book-o',
 	},
     ],

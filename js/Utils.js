@@ -877,12 +877,16 @@ Ext.define('PMG.Utils', {
 	Proxmox.Schema.authDomains.ldap.add = false;
 	Proxmox.Schema.authDomains.ad.add = false;
 
-	Proxmox.Schema.authDomains.pam.edit = false;
-	Proxmox.Schema.authDomains.pmg = {
-	    add: false,
-	    edit: false,
-	    sync: false,
-	};
+	Proxmox.Schema.overrideAuthDomains({
+	    pmg: {
+		name: 'Proxmox Mail Gateway authentication server',
+		ipanel: 'pmxAuthSimplePanel',
+		add: false,
+		edit: true,
+		pwchange: true,
+		sync: false,
+	    },
+	});
 
 	// do whatever you want here
 	Proxmox.Utils.override_task_descriptions({
