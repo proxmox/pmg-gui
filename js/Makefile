@@ -78,6 +78,7 @@ JSSRC=							\
 	LDAPConfig.js					\
 	UserEdit.js					\
 	UserView.js					\
+	AuthEditOIDC.js					\
 	TFAView.js					\
 	FetchmailEdit.js				\
 	FetchmailView.js				\

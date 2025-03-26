@@ -871,6 +871,7 @@ Ext.define('PMG.Utils', {
 	// use oidc instead of openid
 	Proxmox.Schema.authDomains.oidc = Proxmox.Schema.authDomains.openid;
 	Proxmox.Schema.authDomains.oidc.useTypeInUrl = false;
+	Proxmox.Schema.authDomains.oidc.ipanel = 'pmgAuthOIDCPanel';
 	delete Proxmox.Schema.authDomains.openid;
 
 	// Disable LDAP/AD as a realm until LDAP/AD login is implemented
