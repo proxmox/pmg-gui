@@ -33,7 +33,7 @@ Ext.define('PMG.LDAPInputPanel', {
     profileId: undefined,
 
     onGetValues: function (values) {
-        var me = this;
+        var _me = this;
 
         values.disable = values.enable ? 0 : 1;
         delete values.enable;
@@ -531,7 +531,7 @@ Ext.define('PMG.LDAPConfigGrid', {
         },
 
         init: function (view) {
-            var me = this;
+            var _me = this;
             Proxmox.Utils.monStoreErrors(view, view.getStore(), true);
         },
     },

@@ -131,7 +131,7 @@ Ext.define('PMG.LoginView', {
                 }
                 PMG.Utils.updateLoginData(data);
                 PMG.app.changeView(view.targetview);
-            } catch (error) {
+            } catch (_error) {
                 Proxmox.Utils.authClear();
                 loginForm.unmask();
                 Ext.MessageBox.alert(gettext('Error'), gettext('Login failed. Please try again'));
@@ -139,7 +139,7 @@ Ext.define('PMG.LoginView', {
         },
 
         performTFAChallenge: async function (data) {
-            let me = this;
+            let _me = this;
 
             let userid = data.username;
             let ticket = data.ticket;

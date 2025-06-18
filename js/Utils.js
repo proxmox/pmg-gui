@@ -876,7 +876,7 @@ Ext.define('PMG.Utils', {
     render_sender_receiver: (value, _meta, rec) => PMG.Utils.render_envelope(value, rec, true),
 
     constructor: function () {
-        var me = this;
+        var _me = this;
 
         // use oidc instead of openid
         Proxmox.Schema.authDomains.oidc = Proxmox.Schema.authDomains.openid;

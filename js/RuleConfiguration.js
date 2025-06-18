@@ -41,7 +41,7 @@ Ext.define('PMG.RulesConfiguration', {
         },
 
         showEditWindow: function (gridView, record) {
-            let me = this;
+            let _me = this;
             let win = Ext.create('PMG.RuleEditor', {
                 url: `/api2/extjs/config/ruledb/rules/${record.data.id}/config`,
                 listeners: {
@@ -55,7 +55,7 @@ Ext.define('PMG.RulesConfiguration', {
         },
 
         toggleIconClick: function (gridView, rowindex, colindex, column, e, record) {
-            let me = this;
+            let _me = this;
             Proxmox.Utils.API2Request({
                 url: `/config/ruledb/rules/${record.data.id}/config`,
                 params: {

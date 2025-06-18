@@ -285,7 +285,7 @@ class QuarantineView extends Component {
         return false;
     }
     _calculateHeight(item) {
-        var me = this;
+        var _me = this;
 
         let height = 48; // default
 

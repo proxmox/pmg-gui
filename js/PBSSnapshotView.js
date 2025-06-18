@@ -218,7 +218,7 @@ Ext.define('PMG.PBSConfig', {
                         return `/nodes/${Proxmox.NodeName}/pbs/${remote}/snapshot/${snapshot}`;
                     },
                     confirmMsg: function (rec) {
-                        let me = this;
+                        let _me = this;
                         let snapshot = `${rec.data['backup-id']}/${rec.data['backup-time']}`;
                         return Ext.String.format(
                             gettext('Are you sure you want to forget snapshot {0}'),
