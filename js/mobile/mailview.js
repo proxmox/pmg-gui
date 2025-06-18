@@ -1,13 +1,16 @@
 class MailView extends Component {
     constructor(config = {}) {
-	config.tpl = `
+        config.tpl =
+            `
 	<div class="page">
 	    <div class="navbar sliding">
 		<div class="navbar-inner">
 		    <div class="left">
 		  <a href="#" class="link back">
 		<i class="icon icon-back"></i>
-		<span class="ios-only">` + gettext("Back") + `</span>
+		<span class="ios-only">` +
+            gettext('Back') +
+            `</span>
 		  </a>
 		    </div>
 		    <div class="title">Preview</div>
@@ -26,28 +29,36 @@ class MailView extends Component {
 			  <i class="icon f7-icons ios-only">close</i>
 			  <i class="icon material-icons md-only">close</i>
 			</span>
-			<span class="fab-label">` + gettext("Blacklist") + `</span>
+			<span class="fab-label">` +
+            gettext('Blacklist') +
+            `</span>
 		    </a>
 		    <a href="/mail/{{mailid}}/whitelist" class="fab-label-button fab-close">
 			<span>
 			    <i class="icon f7-icons ios-only">check</i>
 			    <i class="icon material-icons md-only">check</i>
 			</span>
-			<span class="fab-label">` + gettext("Whitelist") + `</span>
+			<span class="fab-label">` +
+            gettext('Whitelist') +
+            `</span>
 		    </a>
 		    <a href="/mail/{{mailid}}/delete" class="fab-label-button fab-close color-red">
 			<span>
 			    <i class="icon f7-icons ios-only">trash</i>
 			    <i class="icon material-icons md-only">delete</i>
 			</span>
-		    <span class="fab-label">` + gettext("Delete") + `</span>
+		    <span class="fab-label">` +
+            gettext('Delete') +
+            `</span>
 		    </a>
 		    <a href="/mail/{{mailid}}/deliver" class="fab-label-button fab-close color-green">
 			<span>
 			    <i class="icon f7-icons ios-only">paper_plane</i>
 			    <i class="icon material-icons md-only">send</i>
 			</span>
-			<span class="fab-label">` + gettext("Deliver") + `</span>
+			<span class="fab-label">` +
+            gettext('Deliver') +
+            `</span>
 		    </a>
 		</div>
 	    </div>
@@ -57,7 +68,6 @@ class MailView extends Component {
 	    </div>
 	</div>
 	`;
-	super(config);
+        super(config);
     }
 }
-
