@@ -5,13 +5,13 @@ Ext.define('PMG.QuarantineAboutPage', {
 
     bodyPadding: 10,
     bodyStyle: {
-	fontSize: '14px',
+        fontSize: '14px',
     },
 
     title: gettext('Proxmox Mail Gateway Quarantine Help'),
 
     html: Proxmox.Markdown.parse(
-`# About
+        `# About
 This is the end-user email quarantine interface provided by your email provider.
 
 Proxmox Mail Gateway is software that scans email for threats such as spam or viruses.
@@ -43,5 +43,6 @@ delete the selected email, or use the following keyboard shortcuts instead:
 * <kbd>Delete</kbd>: Delete the mail.
 * <kbd>B</kbd>: Add the sender to the Blocklist/Blacklist.
 * <kbd>W</kbd>: Add the sender to the Welcomelist/Whitelist.
-`),
+`,
+    ),
 });

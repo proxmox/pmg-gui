@@ -15,40 +15,44 @@ Ext.define('PMG.form.FilterField', {
     labelAlign: 'right',
 
     triggers: {
-	clear: {
-	    cls: 'pmx-clear-trigger',
-	    hidden: true,
-	    handler: function() {
-		let me = this;
-		me.setValue('');
-		me.triggers.clear.setVisible(false);
-	    },
-	},
+        clear: {
+            cls: 'pmx-clear-trigger',
+            hidden: true,
+            handler: function () {
+                let me = this;
+                me.setValue('');
+                me.triggers.clear.setVisible(false);
+            },
+        },
     },
 
     listeners: {
-	change: function(field, value) {
-	    let me = this;
-	    let grid = me.up('grid');
-	    if (!me.store) {
-		me.store = grid.getStore();
-	    }
+        change: function (field, value) {
+            let me = this;
+            let grid = me.up('grid');
+            if (!me.store) {
+                me.store = grid.getStore();
+            }
 
-	    me.store.clearFilter();
-	    field.triggers.clear.setVisible(value.length > 0);
+            me.store.clearFilter();
+            field.triggers.clear.setVisible(value.length > 0);
 
-	    if (value) {
-		me.store.filterBy((rec) => me.filteredFields.some((fieldDef) => {
-		    let fieldname = fieldDef, renderer = Ext.identityFn;
-		    if (Ext.isObject(fieldDef)) {
-			fieldname = fieldDef.name;
-			renderer = fieldDef.renderer;
-		    }
-		    let testedValue = renderer(rec.data[fieldname]);
-		    return testedValue.toString().toLowerCase().indexOf(value.toLowerCase()) !== -1;
-		}));
-	    }
-	},
+            if (value) {
+                me.store.filterBy((rec) =>
+                    me.filteredFields.some((fieldDef) => {
+                        let fieldname = fieldDef,
+                            renderer = Ext.identityFn;
+                        if (Ext.isObject(fieldDef)) {
+                            fieldname = fieldDef.name;
+                            renderer = fieldDef.renderer;
+                        }
+                        let testedValue = renderer(rec.data[fieldname]);
+                        return (
+                            testedValue.toString().toLowerCase().indexOf(value.toLowerCase()) !== -1
+                        );
+                    }),
+                );
+            }
+        },
     },
-
 });

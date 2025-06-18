@@ -7,8 +7,8 @@ Ext.define('PMG.MailProxyPorts', {
     monStoreErrors: true,
 
     editorConfig: {
-	url: '/api2/extjs/config/mail',
-	onlineHelp: 'pmgconfig_mailproxy_ports',
+        url: '/api2/extjs/config/mail',
+        onlineHelp: 'pmgconfig_mailproxy_ports',
     },
 
     interval: 5000,
@@ -16,46 +16,47 @@ Ext.define('PMG.MailProxyPorts', {
     cwidth1: 200,
 
     controller: {
+        xclass: 'Ext.app.ViewController',
 
-	xclass: 'Ext.app.ViewController',
-
-	onEdit: function() {
-	    this.getView().run_editor();
-	},
+        onEdit: function () {
+            this.getView().run_editor();
+        },
     },
 
     listeners: {
-	itemdblclick: 'onEdit',
+        itemdblclick: 'onEdit',
     },
 
     tbar: [
-	{
-	    text: gettext('Edit'),
-	    xtype: 'proxmoxButton',
-	    disabled: true,
-	    handler: 'onEdit',
-	},
+        {
+            text: gettext('Edit'),
+            xtype: 'proxmoxButton',
+            disabled: true,
+            handler: 'onEdit',
+        },
     ],
 
-    initComponent: function() {
-	var me = this;
+    initComponent: function () {
+        var me = this;
 
-	me.add_integer_row('ext_port', gettext('External SMTP Port'),
-			   {
- defaultValue: 25, deleteEmpty: true,
-			     minValue: 1, maxValue: 65535,
-});
+        me.add_integer_row('ext_port', gettext('External SMTP Port'), {
+            defaultValue: 25,
+            deleteEmpty: true,
+            minValue: 1,
+            maxValue: 65535,
+        });
 
-	me.add_integer_row('int_port', gettext('Internal SMTP Port'),
-			   {
- defaultValue: 26, deleteEmpty: true,
-			     minValue: 1, maxValue: 65535,
-});
+        me.add_integer_row('int_port', gettext('Internal SMTP Port'), {
+            defaultValue: 26,
+            deleteEmpty: true,
+            minValue: 1,
+            maxValue: 65535,
+        });
 
-	me.callParent();
+        me.callParent();
 
-	me.on('activate', me.rstore.startUpdate);
-	me.on('destroy', me.rstore.stopUpdate);
-	me.on('deactivate', me.rstore.stopUpdate);
+        me.on('activate', me.rstore.startUpdate);
+        me.on('destroy', me.rstore.stopUpdate);
+        me.on('deactivate', me.rstore.stopUpdate);
     },
 });

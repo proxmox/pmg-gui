@@ -2,46 +2,45 @@ Ext.define('PMG.LDAPUserInputPanel', {
     extend: 'Proxmox.panel.InputPanel',
     alias: 'widget.pmgLDAPUserInputPanel',
 
-    setValues: function(values) {
-	var me = this;
+    setValues: function (values) {
+        var me = this;
 
-	if (values.profile !== undefined) {
-	    var accountField = this.lookupReference('accountField');
-	    accountField.setProfile(values.profile);
-	}
+        if (values.profile !== undefined) {
+            var accountField = this.lookupReference('accountField');
+            accountField.setProfile(values.profile);
+        }
 
-	me.callParent([values]);
+        me.callParent([values]);
     },
 
     controller: {
+        xclass: 'Ext.app.ViewController',
 
-	xclass: 'Ext.app.ViewController',
+        changeProfile: function (f, value) {
+            var accountField = this.lookupReference('accountField');
+            accountField.setProfile(value);
+        },
 
-	changeProfile: function(f, value) {
-	    var accountField = this.lookupReference('accountField');
-	    accountField.setProfile(value);
-	},
-
-	control: {
-	    'field[name=profile]': {
-		change: 'changeProfile',
-	    },
-	},
+        control: {
+            'field[name=profile]': {
+                change: 'changeProfile',
+            },
+        },
     },
 
     items: [
-	{
-	    xtype: 'pmgLDAPProfileSelector',
-	    name: 'profile',
-	    reference: 'profileField',
-	    fieldLabel: gettext("Profile"),
-	},
-	{
-	    xtype: 'pmgLDAPUserSelector',
-	    name: 'account',
-	    reference: 'accountField',
-	    fieldLabel: gettext("Account"),
-	},
+        {
+            xtype: 'pmgLDAPProfileSelector',
+            name: 'profile',
+            reference: 'profileField',
+            fieldLabel: gettext('Profile'),
+        },
+        {
+            xtype: 'pmgLDAPUserSelector',
+            name: 'account',
+            reference: 'accountField',
+            fieldLabel: gettext('Account'),
+        },
     ],
 });
 

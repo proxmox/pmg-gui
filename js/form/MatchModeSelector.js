@@ -3,9 +3,9 @@ Ext.define('PMG.MatchModeSelector', {
     alias: 'widget.pmgMatchModeSelector',
 
     comboItems: [
-	['all', gettext('All match')],
-	['any', gettext('Any matches')],
-	['notall', gettext('At least one does not match')],
-	['notany', gettext('None matches')],
+        ['all', gettext('All match')],
+        ['any', gettext('Any matches')],
+        ['notall', gettext('At least one does not match')],
+        ['notany', gettext('None matches')],
     ],
 });

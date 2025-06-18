@@ -7,14 +7,14 @@ Ext.define('PMG.LDAPGroupSelector', {
     queryMode: 'local',
 
     store: {
-	fields: ['dn'],
-	filterOnLoad: true,
-	sorters: [
-	    {
-		property: 'dn',
-		direction: 'ASC',
-	    },
-	],
+        fields: ['dn'],
+        filterOnLoad: true,
+        sorters: [
+            {
+                property: 'dn',
+                direction: 'ASC',
+            },
+        ],
     },
 
     valueField: 'dn',
@@ -22,33 +22,32 @@ Ext.define('PMG.LDAPGroupSelector', {
 
     allowBlank: false,
 
-    setProfile: function(profile, force) {
-	var me = this;
+    setProfile: function (profile, force) {
+        var me = this;
 
-	if (!force && (profile === undefined || profile === null || me.profile === profile)) {
-	    return;
-	}
+        if (!force && (profile === undefined || profile === null || me.profile === profile)) {
+            return;
+        }
 
-	me.profile = profile;
+        me.profile = profile;
 
-	me.setValue('');
+        me.setValue('');
 
-	me.store.setProxy({
-	    type: 'proxmox',
-	    url: '/api2/json/config/ldap/' + me.profile + '/groups',
-	});
+        me.store.setProxy({
+            type: 'proxmox',
+            url: '/api2/json/config/ldap/' + me.profile + '/groups',
+        });
 
-	me.store.load();
+        me.store.load();
     },
 
-    initComponent: function() {
-	var me = this;
+    initComponent: function () {
+        var me = this;
 
-	me.callParent();
+        me.callParent();
 
-	if (me.profile !== undefined) {
-	    me.setProfile(me.profile, true);
-	}
+        if (me.profile !== undefined) {
+            me.setProfile(me.profile, true);
+        }
     },
 });
-
