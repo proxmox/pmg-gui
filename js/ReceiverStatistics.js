@@ -214,9 +214,9 @@ Ext.define('PMG.ReceiverStatistics', {
         selectionChange: function (grid, selected, eOpts) {
             var details = this.lookupReference('details');
             if (selected.length > 0) {
-                var url = '/api2/json/statistics/detail';
-                var receiver = selected[0].data.receiver;
-                var extraparam = { address: receiver, type: 'receiver' };
+                let url = '/api2/json/statistics/detail';
+                let receiver = selected[0].data.receiver;
+                let extraparam = { address: receiver, type: 'receiver' };
                 details.setUrl(
                     url,
                     extraparam,

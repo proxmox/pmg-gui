@@ -49,7 +49,7 @@ Ext.define('PMG.data.StatStore', {
 
         var timespan = 3600;
         if (me.includeTimeSpan) {
-            var period = ts.endtime - ts.starttime;
+            let period = ts.endtime - ts.starttime;
             if (period <= 86400 * 7) {
                 timespan = 3600;
             } else {

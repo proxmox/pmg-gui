@@ -62,7 +62,7 @@ Ext.define('PMG.Dashboard', {
             });
 
             if (setState) {
-                var sp = Ext.state.Manager.getProvider();
+                let sp = Ext.state.Manager.getProvider();
                 sp.set('dashboard-hours', hours);
             }
         },
@@ -168,7 +168,7 @@ Ext.define('PMG.Dashboard', {
             hdPanel.updateValue(hd);
 
             if (errors.length && !viewmodel.get('error_shown')) {
-                var text = '';
+                let text = '';
                 errors.forEach(function (error) {
                     text += error.name + ':<br>' + error.msg + '<br>';
                 });

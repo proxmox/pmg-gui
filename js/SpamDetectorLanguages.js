@@ -89,7 +89,7 @@ Ext.define('PMG.SpamDetectorLanguagesInputPanel', {
 
         var i, len;
         for (i = 0, len = me.languages.length; i < len; i++) {
-            var config = {
+            let config = {
                 xtype: 'checkboxfield',
                 inputValue: me.languages[i][0],
                 boxLabel: me.languages[i][1],

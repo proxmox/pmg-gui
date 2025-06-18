@@ -267,7 +267,7 @@ Ext.define('PMG.ClusterAdministration', {
                         }
                         if (d.conn_error) {
                             metaData.tdCls = 'x-form-invalid-field';
-                            var html = '<p>' + Ext.htmlEncode(d.conn_error) + '</p>';
+                            let html = '<p>' + Ext.htmlEncode(d.conn_error) + '</p>';
                             html = html.replace(/\n/g, '<br>');
                             metaData.tdAttr =
                                 'data-qwidth=600 data-qtitle="ERROR" data-qtip="' +

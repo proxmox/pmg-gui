@@ -98,7 +98,7 @@ Ext.define('PMG.panel.Config', {
 
         if (selection) {
             selection.expand();
-            var menu = me.down('#menu');
+            let menu = me.down('#menu');
             menu.setSelection(selection);
             return cardid;
         }
@@ -108,7 +108,7 @@ Ext.define('PMG.panel.Config', {
     activateCard: function (cardid) {
         var me = this;
         if (me.savedItems[cardid]) {
-            var curcard = me.getLayout().getActiveItem();
+            let curcard = me.getLayout().getActiveItem();
             me.add(me.savedItems[cardid]);
             if (curcard) {
                 me.setActiveItem(cardid);
@@ -116,7 +116,7 @@ Ext.define('PMG.panel.Config', {
 
                 // trigger state change
 
-                var ncard = cardid;
+                let ncard = cardid;
                 // Note: '' is alias for first tab. First tab can be 'search' or something else
                 if (cardid === me.firstItem) {
                     ncard = '';
@@ -138,7 +138,7 @@ Ext.define('PMG.panel.Config', {
         var activeTab; // leaving this undefined means items[0] will be the default tab
 
         if (stateid) {
-            var state = me.sp.get(stateid);
+            let state = me.sp.get(stateid);
             if (state && state.value) {
                 // if this tab does not exists, it chooses the first
                 activeTab = state.value;
@@ -180,7 +180,7 @@ Ext.define('PMG.panel.Config', {
             while (Ext.isArray(item.groups) && item.groups.length > 0) {
                 group = item.groups.shift();
 
-                var child = curnode.findChild('id', group);
+                let child = curnode.findChild('id', group);
                 if (child === null) {
                     // did not find the group item so add it where we are
                     break;
@@ -223,9 +223,9 @@ Ext.define('PMG.panel.Config', {
             // it the state change is for this panel
             if (stateid && key === stateid && newState) {
                 // get active item
-                var acard = me.getLayout().getActiveItem().itemId;
+                let acard = me.getLayout().getActiveItem().itemId;
                 // get the itemid of the new value
-                var ncard = newState.value || me.firstItem;
+                let ncard = newState.value || me.firstItem;
                 if (ncard && acard !== ncard) {
                     // select the chosen item
                     menu.setSelection(root.findChild('id', ncard, true) || root.firstChild);

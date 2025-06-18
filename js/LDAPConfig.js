@@ -359,13 +359,13 @@ Ext.define('PMG.LDAPConfig', {
             var me = this;
             var viewModel = me.getViewModel();
             if (selected[0]) {
-                var name = selected[0].data.profile;
+                let name = selected[0].data.profile;
                 viewModel.set('selected', true);
                 viewModel.set('name', name);
 
                 // set grid stores and load them
-                var gstore = me.lookup('groupgrid').getStore();
-                var ustore = me.lookup('usergrid').getStore();
+                let gstore = me.lookup('groupgrid').getStore();
+                let ustore = me.lookup('usergrid').getStore();
                 gstore.getProxy().setUrl('/api2/json/config/ldap/' + name + '/groups');
                 ustore.getProxy().setUrl('/api2/json/config/ldap/' + name + '/users');
                 gstore.load();

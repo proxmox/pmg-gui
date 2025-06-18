@@ -210,9 +210,9 @@ Ext.define('PMG.ContactStatistics', {
         selectionChange: function (grid, selected, eOpts) {
             var details = this.lookupReference('details');
             if (selected.length > 0) {
-                var contact = selected[0].data.contact;
-                var extraparam = { address: contact, type: 'contact' };
-                var url = '/api2/json/statistics/detail';
+                let contact = selected[0].data.contact;
+                let extraparam = { address: contact, type: 'contact' };
+                let url = '/api2/json/statistics/detail';
                 details.setUrl(
                     url,
                     extraparam,

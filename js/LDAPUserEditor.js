@@ -6,7 +6,7 @@ Ext.define('PMG.LDAPUserInputPanel', {
         var me = this;
 
         if (values.profile !== undefined) {
-            var accountField = this.lookupReference('accountField');
+            let accountField = this.lookupReference('accountField');
             accountField.setProfile(values.profile);
         }
 

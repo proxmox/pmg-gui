@@ -202,9 +202,9 @@ Ext.define('PMG.SenderStatistics', {
         selectionChange: function (grid, selected, eOpts) {
             var details = this.lookupReference('details');
             if (selected.length > 0) {
-                var sender = selected[0].data.sender;
-                var extraparam = { address: sender, type: 'sender' };
-                var url = '/api2/json/statistics/detail';
+                let sender = selected[0].data.sender;
+                let extraparam = { address: sender, type: 'sender' };
+                let url = '/api2/json/statistics/detail';
                 details.setUrl(
                     url,
                     extraparam,
