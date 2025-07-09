@@ -134,7 +134,6 @@ all: pmgmanagerlib.js
 
 .PHONY: clean
 clean:
-	$(MAKE) -C mobile clean
 	find . -name '*~' -exec rm {} ';'	
 	rm -rf pmgmanagerlib.js pmgmanagerlib.js.tmp OnlineHelpInfo.js
 
