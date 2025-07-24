@@ -1,5 +1,7 @@
 include ../defines.mk
 
+BIOME ?= proxmox-biome
+
 JSSRC=							\
 	Utils.js					\
 	form/FilterField.js				\
@@ -112,7 +114,7 @@ OnlineHelpInfo.js: /usr/bin/asciidoc-pmg
 	mv $@.tmp $@
 
 .lint-incremental: $(JSSRC)
-	$(ESLINT) $?
+	$(BIOME) lint $?
 	touch "$@"
 
 .PHONY: lint
@@ -120,7 +122,7 @@ lint: .lint-incremental
 
 .PHONY: check
 check: $(JSSRC)
-	$(ESLINT) --strict $(JSSRC)
+	$(BIOME) lint --error-on-warnings $(JSSRC)
 	touch ".lint-incremental"
 
 pmgmanagerlib.js: OnlineHelpInfo.js $(JSSRC)
