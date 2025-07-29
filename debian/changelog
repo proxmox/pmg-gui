@@ -1,3 +1,13 @@
+pmg-gui (4.2.0) bookworm; urgency=medium
+
+  * authentication: add support for making a realm the default realm.
+
+  * authentication: add configuration panel for OpenID Connect realms.
+
+  * index: add ngettext implementation for translation fallback.
+
+ -- Proxmox Support Team <support@proxmox.com>  Tue, 29 Jul 2025 22:30:07 +0200
+
 pmg-gui (4.1.6) bookworm; urgency=medium
 
   * login view: various fixes related to the quarantine view login
