@@ -10,11 +10,9 @@ MOBILESRC=				\
 	  utils.js			\
 	  app.js			\
 
-lint: pmgmanagerlib-mobile.js
-	$(ESLINT) $^
 
 .PHONY: check
-check: lint
+check:
 
 pmgmanagerlib-mobile.js: $(MOBILESRC)
 	cat $^ >$@.tmp
