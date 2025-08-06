@@ -44,6 +44,7 @@ Ext.define('PMG.SystemOptions', {
             required: true,
             defaultValue: Proxmox.Utils.noneText,
             header: text,
+            renderer: Ext.htmlEncode,
             editor: {
                 xtype: 'proxmoxWindowEdit',
                 onlineHelp: 'pmgconfig_systemconfig',
