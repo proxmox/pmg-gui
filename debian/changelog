@@ -1,3 +1,9 @@
+pmg-gui (4.2.1) bookworm; urgency=medium
+
+  * system options: ensure proxy option is html encoded
+
+ -- Proxmox Support Team <support@proxmox.com>  Thu, 14 Aug 2025 11:45:04 +0200
+
 pmg-gui (4.2.0) bookworm; urgency=medium
 
   * authentication: add support for making a realm the default realm.
