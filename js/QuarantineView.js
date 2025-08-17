@@ -19,15 +19,15 @@ Ext.define('PMG.QuarantineNavigationTree', {
                     expanded: true,
                     children: [
                         {
-                            text: gettext('Whitelist'),
+                            text: gettext('Welcomelist'),
                             iconCls: 'fa fa-file-o',
-                            path: 'pmgUserWhitelist',
+                            path: 'pmgUserWelcomelist',
                             leaf: true,
                         },
                         {
-                            text: gettext('Blacklist'),
+                            text: gettext('Blocklist'),
                             iconCls: 'fa fa-file',
-                            path: 'pmgUserBlacklist',
+                            path: 'pmgUserBlocklist',
                             leaf: true,
                         },
                     ],
@@ -193,11 +193,11 @@ Ext.define('PMG.QuarantineView', {
             let token;
             if (qa) {
                 token = 'pmgSpamQuarantine';
-                if (qa.action === 'blacklist') {
-                    token = 'pmgUserBlacklist';
+                if (qa.action === 'blocklist') {
+                    token = 'pmgUserBlocklist';
                 }
-                if (qa.action === 'whitelist') {
-                    token = 'pmgUserWhitelist';
+                if (qa.action === 'welcomelist') {
+                    token = 'pmgUserWelcomelist';
                 }
                 if (qa.cselect) {
                     token += ':' + qa.cselect;

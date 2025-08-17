@@ -7,7 +7,7 @@ Ext.define('PMG.SpamDetectorOptions', {
     initComponent: function () {
         var me = this;
 
-        me.add_boolean_row('use_awl', gettext('Use auto-whitelists'), {
+        me.add_boolean_row('use_awl', gettext('Use auto-welcomelists'), {
             defaultValue: 0,
         });
 

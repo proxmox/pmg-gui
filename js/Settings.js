@@ -94,10 +94,10 @@ Ext.define('PMG.window.Settings', {
             },
             'button[name=reset]': {
                 click: function () {
-                    let blacklist = ['login-username'];
+                    let blocklist = ['login-username'];
                     let sp = Ext.state.Manager.getProvider();
                     for (const state of Object.values(sp.state)) {
-                        if (blacklist.indexOf(state) !== -1) {
+                        if (blocklist.indexOf(state) !== -1) {
                             continue;
                         }
 

@@ -91,11 +91,11 @@ Ext.define('PMG.SpamQuarantineController', {
                 break;
             case Ext.event.Event.W:
             case Ext.event.Event.W + 32:
-                action = 'whitelist';
+                action = 'welcomelist';
                 break;
             case Ext.event.Event.B:
             case Ext.event.Event.B + 32:
-                action = 'blacklist';
+                action = 'blocklist';
                 break;
         }
 
@@ -261,14 +261,14 @@ Ext.define('PMG.SpamQuarantine', {
                         },
                         '-',
                         {
-                            reference: 'whitelist',
-                            text: gettext('Whitelist'),
+                            reference: 'welcomelist',
+                            text: gettext('Welcomelist'),
                             iconCls: 'fa fa-check',
                             handler: 'btnHandler',
                         },
                         {
-                            reference: 'blacklist',
-                            text: gettext('Blacklist'),
+                            reference: 'blocklist',
+                            text: gettext('Blocklist'),
                             iconCls: 'fa fa-times',
                             handler: 'btnHandler',
                         },

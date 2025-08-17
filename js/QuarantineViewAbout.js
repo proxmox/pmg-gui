@@ -22,11 +22,11 @@ Emails that are not classified as specific spam can be quarantined for the recip
 whether to receive or delete them. In most setups, you will receive a spam report email notifying
 you when mail is quarantined for your address.
 
-You also have the option to block or whitelist certain addresses:
+You also have the option to block or welcomelist certain addresses:
 
-* Allow, in the Whitelist menu, results in mails from these addresses to be delivered directly
+* Allow, in the Welcomelist menu, results in mails from these addresses to be delivered directly
   instead of being quarantined.
-* Blocking, in the Blacklist menu, results in mails from these addresses to be deleted directly
+* Blocking, in the Blocklist menu, results in mails from these addresses to be deleted directly
   instead of being quarantined.
 
 **Note:** The sending of *Spam Report* emails and this web application is controlled by your email
@@ -41,8 +41,8 @@ delete the selected email, or use the following keyboard shortcuts instead:
 
 * <kbd>D</kbd>: Deliver the mail.
 * <kbd>Delete</kbd>: Delete the mail.
-* <kbd>B</kbd>: Add the sender to the Blocklist/Blacklist.
-* <kbd>W</kbd>: Add the sender to the Welcomelist/Whitelist.
+* <kbd>B</kbd>: Add the sender to the Blocklist.
+* <kbd>W</kbd>: Add the sender to the Welcomelist.
 `,
     ),
 });

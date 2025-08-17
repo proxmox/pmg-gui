@@ -49,13 +49,13 @@ Ext.define('PMG.MailProxyConfiguration', {
             xtype: 'pmgMailProxyDKIMPanel',
         },
         {
-            itemId: 'whitelist',
-            title: gettext('Whitelist'),
+            itemId: 'welcomelist',
+            title: gettext('Welcomelist'),
             xtype: 'pmgObjectGroup',
             hideGroupInfo: true,
             showDirection: true,
             otype_list: [1000, 1009, 1001, 1007, 1002, 1008, 1003, 1004],
-            baseurl: '/config/whitelist',
+            baseurl: '/config/welcomelist',
         },
     ],
 });

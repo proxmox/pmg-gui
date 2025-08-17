@@ -7,7 +7,7 @@ Ext.define('PMG.ObjectGroup', {
     otype_list: [],
 
     hideGroupInfo: false,
-    showDirection: false, // only important for SMTP Whitelist
+    showDirection: false, // only important for SMTP Welcomelist
 
     ogdata: undefined,
     objectClass: undefined,

@@ -125,15 +125,15 @@ Ext.define('PMG.store.NavigationStore', {
                         leaf: true,
                     },
                     {
-                        text: gettext('User Whitelist'),
+                        text: gettext('User Welcomelist'),
                         iconCls: 'fa fa-file-o',
-                        path: 'pmgUserWhitelist',
+                        path: 'pmgUserWelcomelist',
                         leaf: true,
                     },
                     {
-                        text: gettext('User Blacklist'),
+                        text: gettext('User Blocklist'),
                         iconCls: 'fa fa-file',
-                        path: 'pmgUserBlacklist',
+                        path: 'pmgUserBlocklist',
                         leaf: true,
                     },
                     {

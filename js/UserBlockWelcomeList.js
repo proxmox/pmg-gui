@@ -5,11 +5,11 @@ Ext.define('pmg-address-list', {
 });
 
 // base class - do not use directly
-Ext.define('PMG.UserBlackWhiteList', {
+Ext.define('PMG.UserBlockWelcomeList', {
     extend: 'Ext.grid.GridPanel',
 
     border: false,
-    listname: undefined, // 'blacklist' or 'whitelist',
+    listname: undefined, // 'blocklist' or 'welcomelist',
 
     selModel: 'checkboxmodel',
 
@@ -45,16 +45,16 @@ Ext.define('PMG.UserBlackWhiteList', {
             let config = {
                 method: 'POST',
                 url: url,
-                onlineHelp: 'pmg_userblackwhitelist',
+                onlineHelp: 'pmg_userblockwelcomelist',
                 isCreate: true,
                 isAdd: true,
                 items: items,
             };
 
-            if (view.listname === 'blacklist') {
-                config.subject = gettext('Blacklist');
-            } else if (view.listname === 'whitelist') {
-                config.subject = gettext('Whitelist');
+            if (view.listname === 'blocklist') {
+                config.subject = gettext('Blocklist');
+            } else if (view.listname === 'welcomelist') {
+                config.subject = gettext('Welcomelist');
             } else {
                 throw 'unknown list - internal error';
             }
@@ -113,7 +113,7 @@ Ext.define('PMG.UserBlackWhiteList', {
                     .getStore()
                     .getProxy()
                     .setExtraParams({
-                        list: view.listname === 'blacklist' ? 'BL' : 'WL',
+                        list: view.listname === 'blocklist' ? 'BL' : 'WL',
                     });
             }
             Proxmox.Utils.monStoreErrors(view.getView(), view.getStore(), true);
@@ -200,20 +200,20 @@ Ext.define('PMG.UserBlackWhiteList', {
     ],
 });
 
-Ext.define('PMG.UserBlacklist', {
-    extend: 'PMG.UserBlackWhiteList',
-    xtype: 'pmgUserBlacklist',
+Ext.define('PMG.UserBlocklist', {
+    extend: 'PMG.UserBlockWelcomeList',
+    xtype: 'pmgUserBlocklist',
 
-    title: gettext('Blacklist'),
+    title: gettext('Blocklist'),
 
-    listname: 'blacklist',
+    listname: 'blocklist',
 
     store: {
         model: 'pmg-address-list',
         autoDestroy: true,
         proxy: {
             type: 'proxmox',
-            url: '/api2/json/quarantine/blacklist',
+            url: '/api2/json/quarantine/blocklist',
         },
         sorters: {
             property: 'address',
@@ -240,20 +240,20 @@ Ext.define('PMG.UserBlacklist', {
     ],
 });
 
-Ext.define('PMG.UserWhitelist', {
-    extend: 'PMG.UserBlackWhiteList',
-    xtype: 'pmgUserWhitelist',
+Ext.define('PMG.UserWelcomelist', {
+    extend: 'PMG.UserBlockWelcomeList',
+    xtype: 'pmgUserWelcomelist',
 
-    title: gettext('Whitelist'),
+    title: gettext('Welcomelist'),
 
-    listname: 'whitelist',
+    listname: 'welcomelist',
 
     store: {
         model: 'pmg-address-list',
         autoDestroy: true,
         proxy: {
             type: 'proxmox',
-            url: '/api2/json/quarantine/whitelist',
+            url: '/api2/json/quarantine/welcomelist',
         },
         sorters: {
             property: 'address',
