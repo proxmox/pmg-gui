@@ -1,3 +1,15 @@
+pmg-gui (5.0.0) trixie; urgency=medium
+
+  * drop legacy Framework7 based mobile spam quarantine UI, it was replaced by
+    a modern Yew based one written in rust.
+
+  * fix: #3755: rename black/whitelist to block/welcomelist.
+
+  * index: add version get parameter when loading translations for correct
+    caching behavior.
+
+ -- Proxmox Support Team <support@proxmox.com>  Tue, 16 Sep 2025 22:01:58 +0200
+
 pmg-gui (4.2.1) bookworm; urgency=medium
 
   * system options: ensure proxy option is html encoded
