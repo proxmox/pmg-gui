@@ -32,6 +32,10 @@ Ext.define('PMG.grid.SpamInfoGrid', {
         },
     ],
 
+    viewConfig: {
+        enableTextSelection: true,
+    },
+
     columns: [
         {
             text: gettext('Test Name'),
