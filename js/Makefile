@@ -51,6 +51,7 @@ JSSRC=							\
 	PBSRemoteEdit.js				\
 	PBSConfig.js					\
 	SystemConfiguration.js				\
+	DNSBLSitesField.js				\
 	MailProxyRelaying.js				\
 	MailProxyPorts.js				\
 	MailProxyOptions.js				\

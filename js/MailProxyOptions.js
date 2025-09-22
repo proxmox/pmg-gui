@@ -19,18 +19,6 @@ Ext.define('PMG.MailProxyOptions', {
 
         me.add_boolean_row('helotests', gettext('SMTP HELO checks'));
 
-        me.add_text_row('dnsbl_sites', gettext('DNSBL Sites'), {
-            deleteEmpty: true,
-            defaultValue: Proxmox.Utils.noneText,
-            renderer: Ext.htmlEncode,
-        });
-
-        me.add_integer_row('dnsbl_threshold', gettext('DNSBL Threshold'), {
-            deleteEmpty: true,
-            defaultValue: 1,
-            minValue: 0,
-        });
-
         var render_verifyreceivers = function (value) {
             if (value === undefined || value === '__default__') {
                 return Proxmox.Utils.noText;
@@ -106,6 +94,40 @@ Ext.define('PMG.MailProxyOptions', {
         me.rows.ndr_on_block.editor.onlineHelp = 'pmgconfig_mailproxy_before_after_queue';
 
         me.add_boolean_row('before_queue_filtering', gettext('Before Queue Filtering'));
+
+        me.add_integer_row('dnsbl_threshold', gettext('DNSBL Threshold'), {
+            deleteEmpty: true,
+            defaultValue: 1,
+            minValue: 0,
+        });
+
+        me.rows.dnsbl_sites = {
+            required: true,
+            header: gettext('DNSBL Sites'),
+            renderer: function () {
+                return (me.getObjectValue('dnsbl_sites') ?? '')
+                    .split(/[;, ]/)
+                    .filter((s) => !!s)
+                    .map((site) => Ext.htmlEncode(site))
+                    .join('<br>');
+            },
+            editor: {
+                xtype: 'proxmoxWindowEdit',
+                subject: gettext('DNSBL Sites'),
+                fieldDefaults: {
+                    labelWidth: 100,
+                },
+                width: 600,
+                height: 400,
+                items: [
+                    {
+                        xtype: 'pmgDnsblSitesGrid',
+                        name: 'dnsbl_sites',
+                        deleteEmpty: true,
+                    },
+                ],
+            },
+        };
 
         var baseurl = '/config/mail';
 
