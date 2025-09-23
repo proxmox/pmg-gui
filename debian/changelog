@@ -1,3 +1,25 @@
+pmg-gui (5.0.1) trixie; urgency=medium
+
+  * quarantine: spam info: make text in grid, like the rule names, selectable.
+
+  * fix #3284: improve user experience for displaying and editing DNSBL Sites
+    when it contains multiple entries. To not just show a flat single text
+    field, but provide a multi row edit dialogue.
+
+  * quarantine view: show toast with link to mobile view if viewport width is
+    1100px or less.
+
+  * quarantine view: add option to user menu for actively switching to the
+    mobile view. This, and the change above provide a workaround for devices
+    that mistakenly get recognized as being mobile or being desktop and thus
+    getting a non-ideal UI shown.
+
+  * quarantine view: redirect unmatched route URL fragments to quarantine
+    overview to avoid a empty looking UI, which might be confusing especially
+    for quarantine end users.
+
+ -- Proxmox Support Team <support@proxmox.com>  Tue, 23 Sep 2025 21:26:11 +0200
+
 pmg-gui (5.0.0) trixie; urgency=medium
 
   * drop legacy Framework7 based mobile spam quarantine UI, it was replaced by
