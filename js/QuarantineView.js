@@ -161,6 +161,12 @@ Ext.define('PMG.QuarantineView', {
             PMG.Utils.doQuarantineAction(qa.action, qa.cselect);
         },
 
+        switchToMobile: function () {
+            let params = new URLSearchParams(document.location.search);
+            params.set('mobile', '1');
+            document.location.search = params.toString();
+        },
+
         control: {
             '[reference=logoutButton]': {
                 click: 'logout',
@@ -170,6 +176,9 @@ Ext.define('PMG.QuarantineView', {
             },
             '[reference=themeButton]': {
                 click: 'changeTheme',
+            },
+            '[reference=mobileButton]': {
+                click: 'switchToMobile',
             },
         },
 
@@ -262,6 +271,11 @@ Ext.define('PMG.QuarantineView', {
                             iconCls: 'fa fa-language',
                             text: gettext('Language'),
                             reference: 'languageButton',
+                        },
+                        {
+                            iconCls: 'fa fa-mobile',
+                            text: gettext('Switch to Mobile View'),
+                            reference: 'mobileButton',
                         },
                         '-',
                         {
