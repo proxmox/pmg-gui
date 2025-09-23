@@ -182,6 +182,17 @@ Ext.define('PMG.QuarantineView', {
             },
         },
 
+        listen: {
+            global: {
+                unmatchedroute: 'onUnmatchedRoute'
+            }
+        },
+
+        onUnmatchedRoute: function(token) {
+            console.warn(`got unmatched app route token ${token}, redirecting to quarantine overview.`);
+            this.redirectTo('pmgSpamQuarantine');
+        },
+
         init: function (view) {
             let me = this;
 
