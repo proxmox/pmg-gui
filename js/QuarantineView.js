@@ -234,6 +234,26 @@ Ext.define('PMG.QuarantineView', {
                 token = Ext.util.History.getToken() || 'pmgSpamQuarantine';
                 this.redirectTo(token, true);
             }
+
+            if (Ext.getBody().getViewSize().width <= 1100) {
+                Ext.toast({
+                    title: gettext('Narrow viewport detected'),
+                    items: {
+                        xtype: 'button',
+                        iconCls: ' x-btn-icon-el-default-toolbar-small fa fa-mobile',
+                        cls: 'x-btn-default-toolbar-small proxmox-inline-button',
+                        text: gettext('Switch to mobile view'),
+                        href: '?mobile=1',
+                        hrefTarget: '_self',
+                    },
+                    minWidth: 250,
+                    closable: true,
+                    autoCloseDelay: 7000,
+                    iconCls: 'fa fa-question-circle',
+                    shadow: true,
+                    align: 'b',
+                });
+            }
         },
     },
 
