@@ -1,3 +1,10 @@
+pmg-gui (5.0.2) trixie; urgency=medium
+
+  * main view: remove wrong border on flex element in top bar to avoid odd
+    line showing up in dark mode due to the beta label.
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 24 Sep 2025 13:32:58 +0200
+
 pmg-gui (5.0.1) trixie; urgency=medium
 
   * quarantine: spam info: make text in grid, like the rule names, selectable.
