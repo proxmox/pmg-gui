@@ -187,6 +187,7 @@ Ext.define('PMG.MainView', {
                     html: '<a href="https://bugzilla.proxmox.com" target="_blank">BETA</a>',
                 },
                 {
+                    xtype: 'box', // keep markup simple, has no borders/background
                     flex: 1,
                 },
                 {
