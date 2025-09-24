@@ -22,8 +22,14 @@ Ext.define('PMG.Postfix.MailQueue', {
 
     queuename: 'deferred',
 
+    selModel: {
+        selType: 'checkboxmodel',
+        mode: 'MULTI',
+        showHeaderCheckbox: true,
+    },
+
     store: {
-        xclass: 'Ext.data.BufferedStore',
+        xclass: 'Ext.data.Store',
         model: 'pmg-mailq',
         remoteFilter: true,
         remoteSort: true,
@@ -54,42 +60,64 @@ Ext.define('PMG.Postfix.MailQueue', {
 
         onFlush: function (button, event, rec) {
             var view = this.getView();
+            let sel = view.getSelectionModel().getSelection();
+            let ids = sel.map((r) => r.get('queue_id'));
 
-            Proxmox.Utils.API2Request({
-                url:
-                    '/api2/extjs/nodes/' +
-                    view.nodename +
-                    '/postfix/queue/' +
-                    view.queuename +
-                    '/' +
-                    rec.data.queue_id,
-                method: 'POST',
-                waitMsgTarget: view,
-                failure: function (response, opts) {
-                    Ext.Msg.alert(gettext('Error'), response.htmlStatus);
-                },
-            });
+            let do_deliver = function () {
+                Proxmox.Utils.API2Request({
+                    url: `/api2/extjs/nodes/${view.nodename}/postfix/queue/${view.queuename}`,
+                    method: 'POST',
+                    params: { action: 'deliver', ids: ids.join(';') },
+                    waitMsgTarget: view,
+                    success: () => {
+                        view.selModel.deselectAll();
+                        view.store.load();
+                    },
+                    failure: (response) => Ext.Msg.alert(gettext('Error'), response.htmlStatus),
+                });
+            }
+
+            if (sel.length === 1) {
+                do_deliver();
+            } else if (sel.length > 1) {
+                Ext.Msg.show({
+                    title: gettext('Confirm'),
+                    message: Ext.String.format(gettext("Deliver {0} selected mails now?"), ids.length),
+                    buttons: Ext.Msg.YESNO,
+                    icon: Ext.Msg.INFO,
+                    fn: function (btn) {
+                        if (btn === 'yes') { do_deliver(); }
+                    },
+                });
+            }
         },
 
         onRemove: function (button, event, rec) {
             var view = this.getView();
+            let sel = view.getSelectionModel().getSelection();
+            let ids = sel.map((r) => r.get('queue_id'));
 
-            Proxmox.Utils.API2Request({
-                url:
-                    '/api2/extjs/nodes/' +
-                    view.nodename +
-                    '/postfix/queue/' +
-                    view.queuename +
-                    '/' +
-                    rec.data.queue_id,
-                method: 'DELETE',
-                waitMsgTarget: view,
-                success: function (response, opts) {
-                    view.selModel.deselectAll();
-                    view.store.load();
-                },
-                failure: function (response, opts) {
-                    Ext.Msg.alert(gettext('Error'), response.htmlStatus);
+            let do_delete = function () {
+                Proxmox.Utils.API2Request({
+                    url: `/api2/extjs/nodes/${view.nodename}/postfix/queue/${view.queuename}`,
+                    method: 'POST',
+                    params: { action: 'delete', ids: ids.join(';') },
+                    waitMsgTarget: view,
+                    success: () => {
+                        view.selModel.deselectAll();
+                        view.store.load();
+                    },
+                    failure: (response) => Ext.Msg.alert(gettext('Error'), response.htmlStatus),
+                });
+            }
+
+            Ext.Msg.show({
+                title: gettext('Confirm'),
+                message: Ext.String.format(gettext("Delete {0} selected mails?"), ids.length),
+                buttons: Ext.Msg.YESNO,
+                icon: Ext.Msg.INFO,
+                fn: function (btn) {
+                    if (btn === 'yes') { do_delete(); }
                 },
             });
         },
@@ -130,6 +158,12 @@ Ext.define('PMG.Postfix.MailQueue', {
     tbar: [
         {
             xtype: 'proxmoxButton',
+            reference: 'headerBtn',
+            enableFn: function (rec) {
+                let grid = this.up('grid');
+                if (!grid) { return false; }
+                return grid.getSelectionModel().getCount() === 1;
+            },
             disabled: true,
             text: gettext('Headers'),
             handler: 'onHeaders',
@@ -141,7 +175,9 @@ Ext.define('PMG.Postfix.MailQueue', {
             handler: 'onFlush',
         },
         {
-            xtype: 'proxmoxStdRemoveButton',
+            xtype: 'proxmoxButton',
+            disabled: true,
+            text: gettext('Remove'),
             handler: 'onRemove',
         },
         {
