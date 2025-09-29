@@ -1,3 +1,10 @@
+pmg-gui (5.0.3) trixie; urgency=medium
+
+  * fix #3450: postfix mail queue: support multi-select for item deletion and
+    delivery.
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 29 Sep 2025 16:21:40 +0200
+
 pmg-gui (5.0.2) trixie; urgency=medium
 
   * main view: remove wrong border on flex element in top bar to avoid odd
