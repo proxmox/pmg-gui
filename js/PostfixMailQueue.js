@@ -58,10 +58,10 @@ Ext.define('PMG.Postfix.MailQueue', {
             view.delayFilterTask.delay(500);
         },
 
-        doAction: function (action, message) {
-            var view = this.getView();
-            let sel = view.getSelectionModel().getSelection();
-            let ids = sel.map((r) => r.get('queue_id'));
+        doAction: function (action, prompt) {
+            let view = this.getView();
+            let selection = view.getSelectionModel().getSelection();
+            let ids = selection.map((r) => r.get('queue_id'));
 
             let do_action = function () {
                 Proxmox.Utils.API2Request({
@@ -77,12 +77,12 @@ Ext.define('PMG.Postfix.MailQueue', {
                 });
             };
 
-            if (sel.length === 1 && action === 'deliver') {
+            if (selection.length === 1 && action === 'deliver') {
                 do_action(action, ids);
             } else {
                 Ext.Msg.show({
                     title: gettext('Confirm'),
-                    message: Ext.String.format(message, ids.length),
+                    message: Ext.String.format(prompt, ids.length),
                     buttons: Ext.Msg.YESNO,
                     icon: Ext.Msg.INFO,
                     fn: function (btn) {
@@ -95,13 +95,11 @@ Ext.define('PMG.Postfix.MailQueue', {
         },
 
         onFlush: function (button, event, rec) {
-            let message = gettext('Deliver {0} selected mails?');
-            this.doAction('deliver', message);
+            this.doAction('deliver', gettext('Deliver {0} selected mails?'));
         },
 
         onRemove: function (button, event, rec) {
-            let message = gettext('Delete {0} selected mails?');
-            this.doAction('delete', message);
+            this.doAction('delete', gettext('Delete {0} selected mails?'));
         },
 
         onHeaders: function (button, event, rec) {
