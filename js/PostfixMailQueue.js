@@ -102,22 +102,14 @@ Ext.define('PMG.Postfix.MailQueue', {
             this.doAction('delete', gettext('Delete {0} selected mails?'));
         },
 
-        onHeaders: function (button, event, rec) {
-            var view = this.getView();
+        onHeaders: function (button, event, { data }) {
+            let view = this.getView();
 
-            var url =
-                '/api2/extjs/nodes/' +
-                view.nodename +
-                '/postfix/queue/' +
-                view.queuename +
-                '/' +
-                rec.data.queue_id;
-
-            var win = Ext.create('PMG.ViewMailHeaders', {
-                title: view.title + ' : ' + rec.data.queue_id,
-                url: url,
+            Ext.create('PMG.ViewMailHeaders', {
+                autoShow: true,
+                title: view.title + ' : ' + data.queue_id,
+                url: `/api2/extjs/nodes/${view.nodename}/postfix/queue/${view.queuename}/${data.queue_id}`,
             });
-            win.show();
         },
 
         control: {
