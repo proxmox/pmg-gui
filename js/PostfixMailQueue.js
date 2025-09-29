@@ -58,16 +58,16 @@ Ext.define('PMG.Postfix.MailQueue', {
             view.delayFilterTask.delay(500);
         },
 
-        onFlush: function (button, event, rec) {
+        doAction: function(action, message) {
             var view = this.getView();
             let sel = view.getSelectionModel().getSelection();
             let ids = sel.map((r) => r.get('queue_id'));
 
-            let do_deliver = function () {
+            let do_action = function(){
                 Proxmox.Utils.API2Request({
                     url: `/api2/extjs/nodes/${view.nodename}/postfix/queue/${view.queuename}`,
                     method: 'POST',
-                    params: { action: 'deliver', ids: ids.join(';') },
+                    params: { action: action, ids: ids.join(';') },
                     waitMsgTarget: view,
                     success: () => {
                         view.selModel.deselectAll();
@@ -77,49 +77,29 @@ Ext.define('PMG.Postfix.MailQueue', {
                 });
             }
 
-            if (sel.length === 1) {
-                do_deliver();
-            } else if (sel.length > 1) {
+            if (sel.length === 1 && action === 'deliver') {
+                do_action(action, ids);
+            } else {
                 Ext.Msg.show({
                     title: gettext('Confirm'),
-                    message: Ext.String.format(gettext("Deliver {0} selected mails now?"), ids.length),
+                    message: Ext.String.format(message, ids.length),
                     buttons: Ext.Msg.YESNO,
                     icon: Ext.Msg.INFO,
                     fn: function (btn) {
-                        if (btn === 'yes') { do_deliver(); }
+                        if (btn === 'yes') { do_action(action, ids); }
                     },
                 });
             }
         },
 
+        onFlush: function (button, event, rec) {
+            let message = gettext("Deliver {0} selected mails?");
+            this.doAction('deliver', message);
+        },
+
         onRemove: function (button, event, rec) {
-            var view = this.getView();
-            let sel = view.getSelectionModel().getSelection();
-            let ids = sel.map((r) => r.get('queue_id'));
-
-            let do_delete = function () {
-                Proxmox.Utils.API2Request({
-                    url: `/api2/extjs/nodes/${view.nodename}/postfix/queue/${view.queuename}`,
-                    method: 'POST',
-                    params: { action: 'delete', ids: ids.join(';') },
-                    waitMsgTarget: view,
-                    success: () => {
-                        view.selModel.deselectAll();
-                        view.store.load();
-                    },
-                    failure: (response) => Ext.Msg.alert(gettext('Error'), response.htmlStatus),
-                });
-            }
-
-            Ext.Msg.show({
-                title: gettext('Confirm'),
-                message: Ext.String.format(gettext("Delete {0} selected mails?"), ids.length),
-                buttons: Ext.Msg.YESNO,
-                icon: Ext.Msg.INFO,
-                fn: function (btn) {
-                    if (btn === 'yes') { do_delete(); }
-                },
-            });
+            let message = gettext("Delete {0} selected mails?");
+            this.doAction('delete', message);
         },
 
         onHeaders: function (button, event, rec) {
