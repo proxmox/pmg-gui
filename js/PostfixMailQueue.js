@@ -58,12 +58,12 @@ Ext.define('PMG.Postfix.MailQueue', {
             view.delayFilterTask.delay(500);
         },
 
-        doAction: function(action, message) {
+        doAction: function (action, message) {
             var view = this.getView();
             let sel = view.getSelectionModel().getSelection();
             let ids = sel.map((r) => r.get('queue_id'));
 
-            let do_action = function(){
+            let do_action = function () {
                 Proxmox.Utils.API2Request({
                     url: `/api2/extjs/nodes/${view.nodename}/postfix/queue/${view.queuename}`,
                     method: 'POST',
@@ -75,7 +75,7 @@ Ext.define('PMG.Postfix.MailQueue', {
                     },
                     failure: (response) => Ext.Msg.alert(gettext('Error'), response.htmlStatus),
                 });
-            }
+            };
 
             if (sel.length === 1 && action === 'deliver') {
                 do_action(action, ids);
@@ -86,19 +86,21 @@ Ext.define('PMG.Postfix.MailQueue', {
                     buttons: Ext.Msg.YESNO,
                     icon: Ext.Msg.INFO,
                     fn: function (btn) {
-                        if (btn === 'yes') { do_action(action, ids); }
+                        if (btn === 'yes') {
+                            do_action(action, ids);
+                        }
                     },
                 });
             }
         },
 
         onFlush: function (button, event, rec) {
-            let message = gettext("Deliver {0} selected mails?");
+            let message = gettext('Deliver {0} selected mails?');
             this.doAction('deliver', message);
         },
 
         onRemove: function (button, event, rec) {
-            let message = gettext("Delete {0} selected mails?");
+            let message = gettext('Delete {0} selected mails?');
             this.doAction('delete', message);
         },
 
@@ -141,7 +143,9 @@ Ext.define('PMG.Postfix.MailQueue', {
             reference: 'headerBtn',
             enableFn: function (rec) {
                 let grid = this.up('grid');
-                if (!grid) { return false; }
+                if (!grid) {
+                    return false;
+                }
                 return grid.getSelectionModel().getCount() === 1;
             },
             disabled: true,
