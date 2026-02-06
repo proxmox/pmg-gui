@@ -91,6 +91,9 @@ Ext.define('PMG.MailProxyOptions', {
         me.add_boolean_row('ndr_on_block', gettext('Send NDR on Blocked E-Mails'));
         // FIXME allow to pass onlineHelp to ObjectGrid's add_xyz_row..
         // onlineHelp: 'pmgconfig_mailproxy_before_after_queue',
+
+        me.add_boolean_row('accept-broken-mime', gettext('Accept Broken MIME Structure'));
+
         me.rows.ndr_on_block.editor.onlineHelp = 'pmgconfig_mailproxy_before_after_queue';
 
         me.add_boolean_row('before_queue_filtering', gettext('Before Queue Filtering'));
