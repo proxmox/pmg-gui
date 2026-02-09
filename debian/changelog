@@ -1,3 +1,9 @@
+pmg-gui (5.0.5) trixie; urgency=medium
+
+  * mail proxy: add checkbox for new 'accept-broken-mime' option.
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 09 Feb 2026 13:56:52 +0100
+
 pmg-gui (5.0.4) trixie; urgency=medium
 
   * bump version for stable release dropping beta label.
