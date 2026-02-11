@@ -1,3 +1,9 @@
+pmg-gui (4.2.2) bookworm; urgency=medium
+
+  * mail proxy: add checkbox for new 'accept-broken-mime' option.
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 11 Feb 2026 18:51:18 +0100
+
 pmg-gui (4.2.1) bookworm; urgency=medium
 
   * system options: ensure proxy option is html encoded
