@@ -109,12 +109,6 @@
     content: "\f115";
 }
 
-/* loading in task list */
-.x-grid-row-loading {
-    background: no-repeat center center;
-    background-image: url(../ext6/theme-crisp/resources/images/loadmask/loading.gif);
-}
-
 /* displayfield minheight is wrong */
 .x-form-display-field-default {
     min-height: 20px;
