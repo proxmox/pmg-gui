@@ -52,6 +52,11 @@ Ext.define('PMG.SpamQuarantineController', {
         let me = this;
         me.lookupReference('spam').setDisabled(false);
 
+        // reflect the current mail's seen state on the toggle button
+        let markseen = me.lookupReference('markseen');
+        markseen.setDisabled(false);
+        markseen.setPressed(!!(rec && rec.data && rec.data.seen));
+
         me.callParent(arguments);
     },
 
@@ -60,6 +65,9 @@ Ext.define('PMG.SpamQuarantineController', {
         let spam = me.lookupReference('spam');
         spam.setDisabled(true);
         spam.setPressed(false);
+        let markseen = me.lookupReference('markseen');
+        markseen.setDisabled(true);
+        markseen.setPressed(false);
         me.lookupReference('spaminfo').setVisible(false);
         me.callParent(arguments);
     },
@@ -67,6 +75,16 @@ Ext.define('PMG.SpamQuarantineController', {
     toggleSpamInfo: function (btn) {
         var grid = this.lookupReference('spaminfo');
         grid.setVisible(!grid.isVisible());
+    },
+
+    toggleSeen: function (btn) {
+        let me = this;
+        let rec = me.lookupReference('list').selModel.getSelection()[0];
+        if (!rec) {
+            return;
+        }
+        // the toggle button already flipped, so its state is the desired one
+        me.doAction(btn.pressed ? 'mark-seen' : 'mark-unseen', [rec]);
     },
 
     openContextMenu: function (table, record, tr, index, event) {
@@ -124,6 +142,9 @@ Ext.define('PMG.SpamQuarantineController', {
         },
         'button[reference=spam]': {
             click: 'toggleSpamInfo',
+        },
+        'button[reference=markseen]': {
+            click: 'toggleSeen',
         },
         pmgQuarantineList: {
             itemkeypress: 'keyPress',
@@ -281,6 +302,14 @@ Ext.define('PMG.SpamQuarantine', {
                             tooltip: gettext(
                                 'Load external images of this mail (only effective with the on-demand image mode)',
                             ),
+                        },
+                        {
+                            xtype: 'button',
+                            reference: 'markseen',
+                            text: gettext('Seen'),
+                            enableToggle: true,
+                            iconCls: 'fa fa-eye',
+                            tooltip: gettext('Mark this mail as seen or unseen'),
                         },
                         {
                             xtype: 'tbseparator',
