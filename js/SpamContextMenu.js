@@ -27,5 +27,18 @@ Ext.define('PMG.menu.SpamContextMenu', {
             action: 'blocklist',
             handler: 'callCallback',
         },
+        { xtype: 'menuseparator' },
+        {
+            text: gettext('Mark as Seen'),
+            iconCls: 'fa fa-fw fa-eye',
+            action: 'mark-seen',
+            handler: 'callCallback',
+        },
+        {
+            text: gettext('Mark as Unseen'),
+            iconCls: 'fa fa-fw fa-eye-slash',
+            action: 'mark-unseen',
+            handler: 'callCallback',
+        },
     ],
 });

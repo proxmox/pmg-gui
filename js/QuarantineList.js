@@ -5,6 +5,9 @@ Ext.define('PMG.QuarantineList', {
     emptyText: gettext('No E-Mail address selected'),
     viewConfig: {
         deferEmptyText: false,
+        // de-emphasize mails already marked as seen (the CSS only dims them
+        // while they are not selected) so that unreviewed mails stand out
+        getRowClass: (record) => (record.get('seen') ? 'pmg-mail-seen' : ''),
     },
 
     config: {

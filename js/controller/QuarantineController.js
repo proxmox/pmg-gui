@@ -137,7 +137,15 @@ Ext.define('PMG.controller.QuarantineController', {
             return;
         }
 
+        // marking as seen/unseen keeps the mail in the list, just update the flag
+        let isSeenAction = action === 'mark-seen' || action === 'mark-unseen';
+
         PMG.Utils.doQuarantineAction(action, selected[0].data.id, function () {
+            if (isSeenAction) {
+                selected[0].set('seen', action === 'mark-seen');
+                selected[0].commit();
+                return;
+            }
             let listController = list.getController();
             listController.allowPositionSave = false;
             // success -> remove directly to avoid slow store reload for a single-element action

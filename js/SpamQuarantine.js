@@ -24,6 +24,7 @@ Ext.define('pmg-spam-list', {
         { type: 'number', name: 'spamlevel' },
         { type: 'number', name: 'spamlevel_positive' },
         { type: 'number', name: 'spamlevel_negative' },
+        { type: 'boolean', name: 'seen' },
         { type: 'integer', name: 'bytes' },
         { type: 'date', dateFormat: 'timestamp', name: 'time' },
         {
@@ -98,6 +99,10 @@ Ext.define('PMG.SpamQuarantineController', {
             case Ext.event.Event.B:
             case Ext.event.Event.B + 32:
                 action = 'blocklist';
+                break;
+            case Ext.event.Event.S:
+            case Ext.event.Event.S + 32:
+                action = 'mark-seen';
                 break;
         }
 
@@ -189,11 +194,26 @@ Ext.define('PMG.SpamQuarantine', {
                         let fmt = (v) => Ext.util.Format.number(v, '0.##');
                         let pos = rec.get('spamlevel_positive');
                         let neg = rec.get('spamlevel_negative');
-                        if (pos === undefined || pos === null || neg === undefined || neg === null) {
+                        if (
+                            pos === undefined ||
+                            pos === null ||
+                            neg === undefined ||
+                            neg === null
+                        ) {
                             return fmt(value);
                         }
                         return `${fmt(value)} <span style="opacity: 0.7;">(+${fmt(pos)}/${fmt(neg)})</span>`;
                     },
+                },
+                {
+                    header: gettext('Seen'),
+                    dataIndex: 'seen',
+                    align: 'center',
+                    width: 60,
+                    renderer: (v) =>
+                        v
+                            ? `<i class="fa fa-check" data-qtip="${gettext('Marked as seen')}"></i>`
+                            : '',
                 },
                 {
                     header: gettext('Size') + ' (KB)',

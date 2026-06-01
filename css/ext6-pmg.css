@@ -157,6 +157,11 @@ table:not(.x-grid-item-selected) tr.x-grid-row.disabled {
     color: #cfcfcf;
 }
 
+/* de-emphasize quarantine mails marked as seen, unless they are selected */
+table:not(.x-grid-item-selected) tr.x-grid-row.pmg-mail-seen {
+    opacity: 0.6;
+}
+
 /* fix action column icons */
 .x-action-col-icon {
     font-size: 14px;
