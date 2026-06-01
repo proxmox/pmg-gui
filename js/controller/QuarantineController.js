@@ -15,6 +15,9 @@ Ext.define('PMG.controller.QuarantineController', {
         if (raw) {
             url += '&raw=1';
         }
+        if (this.loadImages) {
+            url += '&images=1';
+        }
         preview.setDisabled(false);
         this.lookupReference('raw').setDisabled(false);
         this.lookupReference('download').setDisabled(false);
@@ -78,6 +81,14 @@ Ext.define('PMG.controller.QuarantineController', {
         me.lookupReference('mailinfo').setVisible(me.raw);
         me.raw = !me.raw;
         me.updatePreview(me.raw, rec);
+    },
+
+    toggleImages: function (button) {
+        let me = this;
+        let list = me.lookupReference('list');
+        let rec = list.selModel.getSelection()[0];
+        me.loadImages = !me.loadImages;
+        me.updatePreview(me.raw || false, rec);
     },
 
     btnHandler: function (button, e) {
@@ -159,6 +170,13 @@ Ext.define('PMG.controller.QuarantineController', {
         let me = this;
         let list = this.lookupReference('list');
         let selection = list.selModel.getSelection();
+
+        // Reset the per-mail "load images" opt-in on every selection change, so
+        // switching to another mail never silently loads its external resources;
+        // the on-demand image mode is meant to be a deliberate per-mail decision.
+        me.loadImages = false;
+        me.lookupReference('loadimages')?.toggle(false, true);
+
         if (selection.length > 1) {
             me.multiSelect(selection);
             return;
@@ -240,6 +258,9 @@ Ext.define('PMG.controller.QuarantineController', {
     control: {
         'button[reference=raw]': {
             click: 'toggleRaw',
+        },
+        'button[reference=loadimages]': {
+            click: 'toggleImages',
         },
         'proxmoxcheckbox[reference=themeCheck]': {
             change: 'toggleTheme',

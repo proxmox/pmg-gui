@@ -119,6 +119,9 @@ Ext.define('PMG.SpamQuarantineController', {
         'button[reference=raw]': {
             click: 'toggleRaw',
         },
+        'button[reference=loadimages]': {
+            click: 'toggleImages',
+        },
         'button[reference=spam]': {
             click: 'toggleSpamInfo',
         },
@@ -267,6 +270,17 @@ Ext.define('PMG.SpamQuarantine', {
                             text: gettext('Toggle Spam Info'),
                             enableToggle: true,
                             iconCls: 'fa fa-bullhorn',
+                        },
+                        {
+                            xtype: 'button',
+                            reference: 'loadimages',
+                            text: gettext('Load Images'),
+                            enableToggle: true,
+                            iconCls: 'fa fa-image',
+                            // only has an effect when the configured image mode is 'on-demand'
+                            tooltip: gettext(
+                                'Load external images of this mail (only effective with the on-demand image mode)',
+                            ),
                         },
                         {
                             xtype: 'tbseparator',

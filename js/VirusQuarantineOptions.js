@@ -13,8 +13,19 @@ Ext.define('PMG.VirusQuarantineOptions', {
             deleteEmpty: true,
         });
 
-        me.add_boolean_row('viewimages', gettext('View images'), {
-            defaultValue: 1,
+        me.add_combobox_row('viewimages', gettext('View images'), {
+            defaultValue: '1',
+            comboItems: [
+                ['1', gettext('Show all images')],
+                ['on-demand', gettext('Load external images on demand')],
+                ['0', gettext('Hide all images')],
+            ],
+            renderer: (v) =>
+                ({
+                    0: gettext('Hide all images'),
+                    1: gettext('Show all images'),
+                    'on-demand': gettext('Load external images on demand'),
+                })[v] ?? Ext.htmlEncode(v),
         });
 
         me.add_boolean_row('allowhrefs', gettext('Allow HREFs'), {
