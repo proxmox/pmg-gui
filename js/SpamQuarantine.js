@@ -201,9 +201,29 @@ Ext.define('PMG.SpamQuarantine', {
 
             columns: [
                 {
+                    // hidden by default: the seen state shows inline in the
+                    // Sender/Subject column and by dimming the row
+                    header: gettext('Seen'),
+                    dataIndex: 'seen',
+                    align: 'center',
+                    width: 60,
+                    hidden: true,
+                    renderer: (v) =>
+                        v
+                            ? `<i class="fa fa-check" data-qtip="${gettext('Marked as seen')}"></i>`
+                            : '',
+                },
+                {
                     header: gettext('Sender/Subject'),
                     dataIndex: 'subject',
-                    renderer: PMG.Utils.render_sender,
+                    renderer: function (value, meta, rec) {
+                        let sender = PMG.Utils.render_sender(value, meta, rec);
+                        if (!rec.get('seen')) {
+                            return sender;
+                        }
+                        let icon = `<i class="fa fa-check" data-qtip="${gettext('Marked as seen')}"></i>`;
+                        return `${icon} ${sender}`;
+                    },
                     flex: 1,
                 },
                 {
@@ -228,16 +248,6 @@ Ext.define('PMG.SpamQuarantine', {
                         }
                         return `${fmt(value)} <span style="opacity: 0.7;">(+${fmt(pos)}/${fmt(neg)})</span>`;
                     },
-                },
-                {
-                    header: gettext('Seen'),
-                    dataIndex: 'seen',
-                    align: 'center',
-                    width: 60,
-                    renderer: (v) =>
-                        v
-                            ? `<i class="fa fa-check" data-qtip="${gettext('Marked as seen')}"></i>`
-                            : '',
                 },
                 {
                     header: gettext('Size') + ' (KB)',
