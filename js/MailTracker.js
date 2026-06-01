@@ -47,7 +47,16 @@ Ext.define('PMG.MailTrackerFilter', {
         let me = this;
         let param = {};
 
-        let names = ['from', 'target', 'xfilter', 'starttime', 'endtime', 'ndr', 'greylist'];
+        let names = [
+            'from',
+            'target',
+            'xfilter',
+            'starttime',
+            'endtime',
+            'ndr',
+            'greylist',
+            'limit',
+        ];
         Ext.Array.each(names, function (name) {
             let value = me.lookupReference(name).getSubmitValue();
             if (value) {
@@ -155,6 +164,20 @@ Ext.define('PMG.MailTrackerFilter', {
                             margin: { left: 20 },
                             reference: 'greylist',
                             name: 'greylist',
+                        },
+                        {
+                            xtype: 'proxmoxintegerfield',
+                            fieldLabel: gettext('Result Limit'),
+                            labelWidth: 80,
+                            width: 180,
+                            margin: { left: 20 },
+                            reference: 'limit',
+                            name: 'limit',
+                            value: 2000,
+                            minValue: 1,
+                            maxValue: 100000,
+                            allowBlank: false,
+                            listeners: { change: { fn: 'onFilterChange', buffer: 500 } },
                         },
                     ],
                 },
