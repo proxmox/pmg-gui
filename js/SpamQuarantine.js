@@ -22,6 +22,8 @@ Ext.define('pmg-spam-list', {
         'receiver',
         'subject',
         { type: 'number', name: 'spamlevel' },
+        { type: 'number', name: 'spamlevel_positive' },
+        { type: 'number', name: 'spamlevel_negative' },
         { type: 'integer', name: 'bytes' },
         { type: 'date', dateFormat: 'timestamp', name: 'time' },
         {
@@ -179,7 +181,19 @@ Ext.define('PMG.SpamQuarantine', {
                     header: gettext('Score'),
                     dataIndex: 'spamlevel',
                     align: 'right',
-                    width: 70,
+                    width: 110,
+                    // show the net score plus the separate sums of the positive and
+                    // negative test scores, which gives a better feel for borderline
+                    // mails where strong negative tests can mask many positive hits
+                    renderer: function (value, _meta, rec) {
+                        let fmt = (v) => Ext.util.Format.number(v, '0.##');
+                        let pos = rec.get('spamlevel_positive');
+                        let neg = rec.get('spamlevel_negative');
+                        if (pos === undefined || pos === null || neg === undefined || neg === null) {
+                            return fmt(value);
+                        }
+                        return `${fmt(value)} <span style="opacity: 0.7;">(+${fmt(pos)}/${fmt(neg)})</span>`;
+                    },
                 },
                 {
                     header: gettext('Size') + ' (KB)',
