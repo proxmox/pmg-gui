@@ -303,14 +303,6 @@ Ext.define('PMG.SpamQuarantine', {
                             tooltip: gettext('Load external images of this mail'),
                         },
                         {
-                            xtype: 'button',
-                            reference: 'markseen',
-                            text: gettext('Seen'),
-                            enableToggle: true,
-                            iconCls: 'fa fa-eye',
-                            tooltip: gettext('Mark this mail as seen or unseen'),
-                        },
-                        {
                             xtype: 'tbseparator',
                             reference: 'themeCheckSep',
                         },
@@ -336,6 +328,14 @@ Ext.define('PMG.SpamQuarantine', {
                             iconCls: 'fa fa-download',
                         },
                         '-',
+                        {
+                            xtype: 'button',
+                            reference: 'markseen',
+                            text: gettext('Seen'),
+                            enableToggle: true,
+                            iconCls: 'fa fa-eye',
+                            tooltip: gettext('Mark this mail as seen or unseen'),
+                        },
                         {
                             reference: 'welcomelist',
                             text: gettext('Welcomelist'),
