@@ -184,7 +184,7 @@ Ext.define('PMG.SpamQuarantine', {
             selModel: 'checkboxmodel',
             reference: 'list',
             region: 'west',
-            width: 500,
+            width: 600,
             split: true,
             collapsible: false,
             store: {

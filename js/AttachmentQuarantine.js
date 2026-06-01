@@ -54,7 +54,7 @@ Ext.define('PMG.AttachmentQuarantine', {
             quarantineType: 'attachment',
             reference: 'list',
             region: 'west',
-            width: 500,
+            width: 600,
             split: true,
             collapsible: false,
             store: {
