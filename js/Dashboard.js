@@ -57,7 +57,7 @@ Ext.define('PMG.Dashboard', {
             viewModel.set('hours', hours);
             viewModel.notify();
 
-            Ext.Array.forEach(['recentmails', 'receivers'], function (item) {
+            Ext.Array.forEach(['recentmails', 'receivers', 'senders'], function (item) {
                 viewModel.getStore(item).reload();
             });
 
@@ -316,6 +316,25 @@ Ext.define('PMG.Dashboard', {
                     { type: 'string', name: 'receiver' },
                 ],
             },
+            senders: {
+                storeid: 'dash-senders',
+                interval: 10000,
+                type: 'update',
+                autoStart: true,
+                autoDestroy: true,
+                proxy: {
+                    type: 'proxmox',
+                    url: '/api2/json/statistics/recentsenders',
+                    extraParams: {
+                        hours: '{hours}',
+                        limit: 10,
+                    },
+                },
+                fields: [
+                    { type: 'integer', name: 'count' },
+                    { type: 'string', name: 'sender' },
+                ],
+            },
             repositories: {
                 storeid: 'dash-repositories',
                 type: 'update',
@@ -481,6 +500,50 @@ Ext.define('PMG.Dashboard', {
                             dataIndex: 'receiver',
                             flex: 1,
                             text: gettext('Receiver'),
+                        },
+                        {
+                            dataIndex: 'count',
+                            align: 'right',
+                            text: gettext('Count'),
+                        },
+                    ],
+                },
+            ],
+        },
+        {
+            height: 300,
+            iconCls: 'fa fa-list',
+            title: gettext('Top Senders'),
+
+            bodyPadding: '10 10 10 10',
+            layout: {
+                type: 'vbox',
+                pack: 'center',
+                align: 'stretch',
+            },
+            items: [
+                {
+                    xtype: 'grid',
+                    bind: {
+                        store: '{senders}',
+                    },
+                    emptyText: gettext('No data in database'),
+                    // remove all borders/lines/headers
+                    border: false,
+                    bodyBorder: false,
+                    hideHeaders: true,
+                    header: false,
+                    columnLines: false,
+                    rowLines: false,
+                    viewConfig: {
+                        stripeRows: false,
+                    },
+                    columns: [
+                        {
+                            dataIndex: 'sender',
+                            flex: 1,
+                            text: gettext('Sender'),
+                            renderer: Ext.String.htmlEncode,
                         },
                         {
                             dataIndex: 'count',
