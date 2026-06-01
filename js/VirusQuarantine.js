@@ -136,10 +136,9 @@ Ext.define('PMG.VirusQuarantine', {
                             text: gettext('Load Images'),
                             enableToggle: true,
                             iconCls: 'fa fa-image',
-                            // only has an effect when the configured image mode is 'on-demand'
-                            tooltip: gettext(
-                                'Load external images of this mail (only effective with the on-demand image mode)',
-                            ),
+                            // revealed per-mail by the controller
+                            hidden: true,
+                            tooltip: gettext('Load external images of this mail'),
                         },
                         {
                             xtype: 'tbseparator',

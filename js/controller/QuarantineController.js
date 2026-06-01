@@ -176,6 +176,7 @@ Ext.define('PMG.controller.QuarantineController', {
         // the on-demand image mode is meant to be a deliberate per-mail decision.
         me.loadImages = false;
         me.lookupReference('loadimages')?.toggle(false, true);
+        me.lookupReference('loadimages')?.setVisible(false);
 
         if (selection.length > 1) {
             me.multiSelect(selection);
@@ -183,7 +184,34 @@ Ext.define('PMG.controller.QuarantineController', {
         }
 
         let rec = selection[0] || {};
-        me.lookup('spaminfo')?.setID(rec);
+
+        let spaminfo = me.lookup('spaminfo');
+        let id = rec.data?.id;
+        if (id) {
+            if (spaminfo) {
+                // reuse the spam-info grid's content request
+                spaminfo.getStore().on(
+                    'load',
+                    (store, records, success, op) => {
+                        let data = op && Ext.decode(op.getResponse()?.responseText, true)?.data;
+                        me.revealLoadImages(id, data?.external_images);
+                    },
+                    me,
+                    { single: true },
+                );
+            } else {
+                // virus quarantine has no spam-info grid
+                Proxmox.Utils.API2Request({
+                    url: '/quarantine/content',
+                    method: 'GET',
+                    params: { id },
+                    autoErrorAlert: false,
+                    success: ({ result }) => me.revealLoadImages(id, result?.data?.external_images),
+                });
+            }
+        }
+
+        spaminfo?.setID(rec);
         me.lookup('attachmentlist')?.setID(rec);
         me.lookup('attachmentlist')?.setVisible(!!rec.data);
 
@@ -191,6 +219,22 @@ Ext.define('PMG.controller.QuarantineController', {
         me.updatePreview(me.raw || false, rec);
         me.lookupReference('mailinfo').setVisible(!!rec.data && !me.raw);
         me.lookupReference('mailinfo').update(rec.data);
+    },
+
+    // reveal the button from the mail's 'external_images' flag, but only if that
+    // mail is still the single selected one (a slow response must not apply to a
+    // mail the user already moved away from)
+    revealLoadImages: function (id, external) {
+        let sel = this.lookupReference('list').selModel.getSelection();
+        if (sel.length !== 1 || sel[0].data?.id !== id) {
+            return;
+        }
+        // a boolean can arrive as a bool, a number or a PVE::JSONSchema boolean string
+        let on =
+            external === true ||
+            external === 1 ||
+            (typeof external === 'string' && /^\s*(1|on|yes|true)\s*$/i.test(external));
+        this.lookupReference('loadimages')?.setVisible(on);
     },
 
     openContextMenu: function (table, record, tr, index, event) {
