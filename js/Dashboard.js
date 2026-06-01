@@ -500,6 +500,7 @@ Ext.define('PMG.Dashboard', {
                             dataIndex: 'receiver',
                             flex: 1,
                             text: gettext('Receiver'),
+                            renderer: Ext.String.htmlEncode,
                         },
                         {
                             dataIndex: 'count',
