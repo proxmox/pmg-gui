@@ -67,7 +67,7 @@ upload: $(DEB)
 distclean: clean
 	rm -f examples/simple-demo.pem
 
-.PHONY: lint
+.PHONY: check
 check:
 	$(MAKE) -C js/ check
 
