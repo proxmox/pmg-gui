@@ -71,6 +71,10 @@ distclean: clean
 check:
 	$(MAKE) -C js/ check
 
+.PHONY: tidy
+tidy:
+	$(MAKE) -C js/ tidy
+
 clean:
 	make -C js clean
 	rm -rf $(PACKAGE)-[0-9]*/ *.dsc $(PACKAGE)*.tar.* *.deb *.changes *.buildinfo *.build

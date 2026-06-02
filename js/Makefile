@@ -126,6 +126,10 @@ check: $(JSSRC)
 	$(BIOME) lint --error-on-warnings $(JSSRC)
 	touch ".lint-incremental"
 
+.PHONY: tidy
+tidy: $(JSSRC)
+	proxmox-biome format --fix $?
+
 pmgmanagerlib.js: OnlineHelpInfo.js $(JSSRC)
 	echo "// $(DEB_VERSION_UPSTREAM_REVISION)" > $@.tmp
 	cat OnlineHelpInfo.js $(JSSRC) >> $@.tmp
