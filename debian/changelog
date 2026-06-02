@@ -1,3 +1,41 @@
+pmg-gui (5.1.0) trixie; urgency=medium
+
+  * spam quarantine: allow marking mails as seen, via a context-menu action,
+    the 's' shortcut and a toolbar toggle button, so users of a shared mailbox
+    can flag a processed mail without deleting it. Seen mails are marked
+    inline in the Sender/Subject column.
+
+  * quarantine: load external images on demand through a tri-state image
+    selector (show all, on-demand, hide) and a "Load Images" button, which is
+    only revealed when the opened mail actually references external resources.
+
+  * spam quarantine: show the net spam score together with the summed positive
+    and negative test scores, to better judge borderline mails.
+
+  * quarantine views: widen the default mail list region to fit more of the
+    sender and subject without resizing, making better use of modern (bigger)
+    display sizes.
+
+  * dashboard: add a "Top Senders" panel next to the existing "Top Receivers"
+    one.
+
+  * dashboard: HTML-encode the recipient address in the "Top Receivers" panel
+    to prevent injecting markup into the admin dashboard through a crafted
+    recipient.
+
+  * mail tracker: make the result limit configurable, so a query is no longer
+    silently capped at 2000 entries.
+
+  * cluster: assist node joining via copyable join information, decoding a
+    pasted blob into the peer address and fingerprint and checking it against
+    the local node's product and release.
+
+  * cluster: avoid logging out the user during a cluster join, which
+    previously failed mid-join once the synced authentication key invalidated
+    the current session.
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 03 Jun 2026 01:40:03 +0200
+
 pmg-gui (5.0.5) trixie; urgency=medium
 
   * mail proxy: add checkbox for new 'accept-broken-mime' option.
