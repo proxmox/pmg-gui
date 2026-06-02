@@ -52,6 +52,7 @@ Ext.define('PMG.ClusterJoinNodeWindow', {
 
     isCreate: true,
     submitText: gettext('Join'),
+    showTaskViewer: true,
 
     defaultFocus: 'textarea[name=serializedinfo]',
 
@@ -75,6 +76,11 @@ Ext.define('PMG.ClusterJoinNodeWindow', {
     controller: {
         xclass: 'Ext.app.ViewController',
         control: {
+            '#': {
+                close: function () {
+                    delete PMG.Utils.silenceAuthFailures;
+                },
+            },
             'textarea[name=serializedinfo]': {
                 change: 'recomputeSerializedInfo',
                 enable: 'resetField',
@@ -155,6 +161,31 @@ Ext.define('PMG.ClusterJoinNodeWindow', {
             vm.set('hasAssistedInfo', field.valid);
             vm.set('versionNotice', notice);
         },
+    },
+
+    submit: function () {
+        // joining temporarily produces auth failures, as the node syncs the master's auth key;
+        // silence them while the task runs so the user is not logged out mid-join
+        PMG.Utils.silenceAuthFailures = true;
+        this.callParent();
+    },
+
+    taskDone: function (success) {
+        delete PMG.Utils.silenceAuthFailures;
+        if (!success) {
+            return;
+        }
+        // the node synced the master's auth key, so the current ticket is now invalid:
+        // reload to force a fresh login once the restarted services are back up
+        Ext.defer(function () {
+            window.location.reload(true);
+        }, 5000);
+        // the task viewer stays open above any body mask, so inform the user directly
+        Ext.Msg.show({
+            title: gettext('Join Task Finished'),
+            icon: Ext.Msg.INFO,
+            msg: gettext('Cluster join finished, you may need to log in again. Reloading GUI.'),
+        });
     },
 
     items: [

@@ -119,7 +119,8 @@ Ext.define('PMG.MainView', {
             // show login on requestexception
             // fixme: what about other errors
             Ext.Ajax.on('requestexception', function (conn, response, options) {
-                if (response.status === 401) {
+                // silenced while a cluster join runs, as the synced auth key invalidates our ticket
+                if (response.status === 401 && !PMG.Utils.silenceAuthFailures) {
                     // auth failure
                     me.logout();
                 }
