@@ -237,7 +237,7 @@ Ext.define('PMG.PBSConfig', {
                 },
             ],
             store: {
-                fields: ['backup-id', 'backup-time', 'size', 'ctime', 'encrypted'],
+                fields: ['backup-id', 'backup-time', 'size', 'ctime', 'encrypted', 'verification'],
                 proxy: { type: 'proxmox' },
                 sorters: [
                     {
@@ -268,10 +268,23 @@ Ext.define('PMG.PBSConfig', {
                     flex: 1,
                 },
                 {
-                    text: 'Encrypted',
+                    text: gettext('Encrypted'),
                     dataIndex: 'encrypted',
-                    hidden: true, // FIXME: actually return from API
-                    renderer: Proxmox.Utils.format_boolean,
+                    renderer: PMG.Utils.render_backup_encryption,
+                    flex: 1,
+                },
+                {
+                    text: gettext('Verify State'),
+                    dataIndex: 'verification',
+                    renderer: PMG.Utils.render_backup_verification,
+                    sorter: {
+                        property: 'verification',
+                        transform: (value) => {
+                            let state = value?.state ?? 'none';
+                            let order = PMG.Utils.verificationStateOrder;
+                            return order[state] ?? order.__default__;
+                        },
+                    },
                     flex: 1,
                 },
             ],
