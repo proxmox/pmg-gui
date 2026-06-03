@@ -1,3 +1,253 @@
+Ext.define('PMG.panel.PBSEncryptionKeyTab', {
+    extend: 'Proxmox.panel.InputPanel',
+    xtype: 'pmgPBSEncryptionKeyTab',
+    mixins: ['Proxmox.Mixin.CBind'],
+
+    onlineHelp: 'pmgbackup_pbs_remotes',
+
+    onGetValues: function (form) {
+        let values = {};
+        if (form.cryptMode === 'upload') {
+            values['encryption-key'] = form['crypt-key-upload'];
+        } else if (form.cryptMode === 'autogenerate') {
+            values['encryption-key'] = 'autogen';
+        } else if (form.cryptMode === 'none') {
+            if (!this.isCreate) {
+                values.delete = ['encryption-key'];
+            }
+        }
+        return values;
+    },
+
+    setValues: function (values) {
+        let me = this;
+        let vm = me.getViewModel();
+
+        let cryptKeyInfo = values['encryption-key'];
+        if (cryptKeyInfo) {
+            let icon = '<span class="fa fa-lock good"></span> ';
+            if (cryptKeyInfo.match(/^[a-fA-F0-9]{2}:/)) {
+                // new style fingerprint
+                let shortKeyFP = PMG.Utils.render_pbs_fingerprint(cryptKeyInfo);
+                values['crypt-key-fp'] =
+                    icon + `${gettext('Active')} - ${gettext('Fingerprint')} ${shortKeyFP}`;
+            } else {
+                // old key without FP
+                values['crypt-key-fp'] = icon + gettext('Active');
+            }
+            values.cryptMode = 'keep';
+            values['crypt-allow-edit'] = false;
+        } else {
+            values['crypt-key-fp'] = gettext('None');
+            let cryptModeNone = me.down('radiofield[inputValue=none]');
+            cryptModeNone.setBoxLabel(gettext('Do not encrypt backups'));
+            values.cryptMode = 'none';
+            values['crypt-allow-edit'] = true;
+        }
+        vm.set('keepCryptVisible', !!cryptKeyInfo);
+        vm.set('allowEdit', !cryptKeyInfo);
+
+        me.callParent([values]);
+    },
+
+    viewModel: {
+        data: {
+            allowEdit: true,
+            keepCryptVisible: false,
+        },
+        formulas: {
+            showDangerousHint: (get) => {
+                let allowEdit = get('allowEdit');
+                return get('keepCryptVisible') && allowEdit;
+            },
+        },
+    },
+
+    items: [
+        {
+            xtype: 'displayfield',
+            name: 'crypt-key-fp',
+            fieldLabel: gettext('Encryption Key'),
+            padding: '2 0',
+        },
+        {
+            xtype: 'checkbox',
+            name: 'crypt-allow-edit',
+            boxLabel: gettext('Edit existing encryption key (dangerous!)'),
+            hidden: true,
+            submitValue: false,
+            isDirty: () => false,
+            bind: {
+                hidden: '{!keepCryptVisible}',
+                value: '{allowEdit}',
+            },
+        },
+        {
+            xtype: 'radiofield',
+            name: 'cryptMode',
+            inputValue: 'keep',
+            boxLabel: gettext('Keep encryption key'),
+            padding: '0 0 0 25',
+            cbind: {
+                hidden: '{isCreate}',
+            },
+            bind: {
+                hidden: '{!keepCryptVisible}',
+                disabled: '{!allowEdit}',
+            },
+        },
+        {
+            xtype: 'radiofield',
+            name: 'cryptMode',
+            inputValue: 'none',
+            checked: true,
+            padding: '0 0 0 25',
+            cbind: {
+                disabled: '{!isCreate}',
+                checked: '{isCreate}',
+                boxLabel: (get) =>
+                    get('isCreate')
+                        ? gettext('Do not encrypt backups')
+                        : gettext('Delete existing encryption key'),
+            },
+            bind: {
+                disabled: '{!allowEdit}',
+            },
+        },
+        {
+            xtype: 'radiofield',
+            name: 'cryptMode',
+            inputValue: 'autogenerate',
+            boxLabel: gettext('Auto-generate a client encryption key'),
+            padding: '0 0 0 25',
+            cbind: {
+                disabled: '{!isCreate}',
+            },
+            bind: {
+                disabled: '{!allowEdit}',
+            },
+        },
+        {
+            xtype: 'radiofield',
+            name: 'cryptMode',
+            inputValue: 'upload',
+            boxLabel: gettext('Upload an existing client encryption key'),
+            padding: '0 0 0 25',
+            cbind: {
+                disabled: '{!isCreate}',
+            },
+            bind: {
+                disabled: '{!allowEdit}',
+            },
+            listeners: {
+                change: function (f, value) {
+                    let panel = this.up('inputpanel');
+                    if (!panel.rendered) {
+                        return;
+                    }
+                    let uploadKeyField = panel.down('field[name=crypt-key-upload]');
+                    uploadKeyField.setDisabled(!value);
+                    uploadKeyField.setHidden(!value);
+
+                    let uploadKeyButton = panel.down('filebutton[name=crypt-upload-button]');
+                    uploadKeyButton.setDisabled(!value);
+                    uploadKeyButton.setHidden(!value);
+
+                    if (value) {
+                        uploadKeyField.validate();
+                    } else {
+                        uploadKeyField.reset();
+                    }
+                },
+            },
+        },
+        {
+            xtype: 'fieldcontainer',
+            layout: 'hbox',
+            items: [
+                {
+                    xtype: 'proxmoxtextfield',
+                    name: 'crypt-key-upload',
+                    fieldLabel: gettext('Key'),
+                    value: '',
+                    disabled: true,
+                    hidden: true,
+                    allowBlank: false,
+                    labelAlign: 'right',
+                    flex: 1,
+                    emptyText: gettext('You can drag-and-drop a key file here.'),
+                    validator: function (value) {
+                        if (value.length) {
+                            let key;
+                            try {
+                                key = JSON.parse(value);
+                            } catch (e) {
+                                return 'Failed to parse key - ' + e;
+                            }
+                            if (key.data === undefined) {
+                                return 'Does not seems like a valid Proxmox Backup key!';
+                            }
+                        }
+                        return true;
+                    },
+                    afterRender: function () {
+                        if (!window.FileReader) {
+                            // No FileReader support in this browser
+                            return;
+                        }
+                        let cancel = function (ev) {
+                            ev = ev.event;
+                            if (ev.preventDefault) {
+                                ev.preventDefault();
+                            }
+                        };
+                        this.inputEl.on('dragover', cancel);
+                        this.inputEl.on('dragenter', cancel);
+                        this.inputEl.on('drop', (ev) => {
+                            cancel(ev);
+                            let files = ev.event.dataTransfer.files;
+                            Proxmox.Utils.loadTextFromFile(files[0], (v) => this.setValue(v));
+                        });
+                    },
+                },
+                {
+                    xtype: 'filebutton',
+                    name: 'crypt-upload-button',
+                    iconCls: 'fa fa-fw fa-folder-open-o x-btn-icon-el-default-toolbar-small',
+                    cls: 'x-btn-default-toolbar-small proxmox-inline-button',
+                    margin: '0 0 0 4',
+                    disabled: true,
+                    hidden: true,
+                    listeners: {
+                        change: function (btn, e, value) {
+                            let ev = e.event;
+                            let field = btn.up().down('proxmoxtextfield[name=crypt-key-upload]');
+                            Proxmox.Utils.loadTextFromFile(ev.target.files[0], (v) =>
+                                field.setValue(v),
+                            );
+                            btn.reset();
+                        },
+                    },
+                },
+            ],
+        },
+        {
+            xtype: 'component',
+            border: false,
+            padding: '5 2',
+            userCls: 'pmx-hint',
+            html: // `<b style="color:red;font-weight:600;">${ngettext('Warning', 'Warnings', 1)}</b>: ` +
+                `<span class="fa fa-exclamation-triangle" style="color:red;font-size:14px;"></span> ` +
+                gettext(
+                    'Deleting or replacing the encryption key will break restoring backups created with it!',
+                ),
+            hidden: true,
+            bind: {
+                hidden: '{!showDangerousHint}',
+            },
+        },
+    ],
+});
 Ext.define('PMG.PBSInputPanel', {
     extend: 'Ext.tab.Panel',
     xtype: 'pmgPBSInputPanel',
@@ -182,6 +432,11 @@ Ext.define('PMG.PBSInputPanel', {
                     cbind: { deleteEmpty: '{!isCreate}' },
                 },
             ],
+        },
+        {
+            xtype: 'pmgPBSEncryptionKeyTab',
+            title: gettext('Encryption'),
+            cbind: { isCreate: '{isCreate}' },
         },
     ],
 });
