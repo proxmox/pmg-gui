@@ -185,6 +185,23 @@ Ext.define('PMG.LoginView', {
                         fieldLabel: gettext('Your E-Mail'),
                     },
                 ],
+                apiCallDone: function (success) {
+                    if (!success) {
+                        return;
+                    }
+                    // keep the message neutral, the backend silently ignores
+                    // addresses of foreign domains to avoid disclosing them
+                    Ext.toast({
+                        title: gettext('Request Quarantine Link'),
+                        html: gettext(
+                            'If the e-mail address is valid, a quarantine link has been sent to it. Please check your inbox.',
+                        ),
+                        iconCls: 'fa fa-check',
+                        autoCloseDelay: 7000,
+                        closable: true,
+                        align: 'b',
+                    });
+                },
                 listeners: {
                     destroy: function () {
                         me.lookup('loginwindow').show(true);
