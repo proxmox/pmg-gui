@@ -30,6 +30,16 @@ Ext.define('PMG.SpamDetectorOptions', {
             minValue: 64,
             deleteEmpty: true,
         });
+        me.rows.maxspamsize.editor.items = [
+            me.rows.maxspamsize.editor.items,
+            {
+                xtype: 'displayfield',
+                userCls: 'pmx-hint',
+                value: gettext(
+                    'Only the first part of a mail, up to this size, is scanned for spam.',
+                ),
+            },
+        ];
 
         me.rows.languages = {
             required: true,
