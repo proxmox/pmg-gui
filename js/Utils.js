@@ -910,6 +910,50 @@ Ext.define('PMG.Utils', {
             saupdate: ['', gettext('SpamAssassin update')],
         });
     },
+
+    render_pbs_fingerprint: (fp) => fp.substring(0, 23),
+
+    render_backup_encryption: function (v, meta, record) {
+        if (!v) {
+            return gettext('No');
+        }
+        let tip = '';
+        if (v.match(/^[a-fA-F0-9]{2}:/)) {
+            // fingerprint
+            tip = `Key fingerprint ${PMG.Utils.render_pbs_fingerprint(v)}`;
+        }
+        let icon = `<i class="fa fa-fw fa-lock good"></i>`;
+        return `<span data-qtip="${Ext.htmlEncode(tip)}">${icon} ${gettext('Encrypted')}</span>`;
+    },
+
+    render_backup_verification: function (v, meta, record) {
+        let i = (cls, txt) => `<i class="fa fa-fw fa-${cls}"></i> ${txt}`;
+        if (v === undefined || v === null) {
+            return i('question-circle-o warning', gettext('None'));
+        }
+        let tip = '';
+        let txt = gettext('Failed');
+        let iconCls = 'times critical';
+        if (v.state === 'ok') {
+            txt = gettext('OK');
+            iconCls = 'check good';
+            let now = Date.now() / 1000;
+            let task = Proxmox.Utils.parse_task_upid(v.upid);
+            let verify_time = Proxmox.Utils.render_timestamp(task.starttime);
+            tip = `Last verify task started on ${verify_time}`;
+            if (now - task.starttime > 30 * 24 * 60 * 60) {
+                tip = `Last verify task over 30 days ago: ${verify_time}`;
+                iconCls = 'check warning';
+            }
+        }
+        return `<span data-qtip="${Ext.htmlEncode(tip)}"> ${i(iconCls, txt)} </span>`;
+    },
+    verificationStateOrder: {
+        failed: 0,
+        none: 1,
+        ok: 2,
+        __default__: 3,
+    },
 });
 
 Ext.define('PMG.Async', {
