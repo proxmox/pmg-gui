@@ -252,17 +252,17 @@ Ext.define('PMG.PBSConfig', {
             },
             columns: [
                 {
-                    text: 'Group ID',
+                    text: gettext('Group ID'),
                     dataIndex: 'backup-id',
                     flex: 1,
                 },
                 {
-                    text: 'Time',
+                    text: gettext('Time'),
                     dataIndex: 'backup-time',
                     width: 180,
                 },
                 {
-                    text: 'Size',
+                    text: gettext('Size'),
                     dataIndex: 'size',
                     renderer: Proxmox.Utils.render_size,
                     flex: 1,
