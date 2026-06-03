@@ -66,6 +66,13 @@ Ext.define('PMG.MailProxyOptions', {
             minValue: 0,
         });
 
+        me.add_integer_row('queue-lifetime', gettext('Maximal Queue Lifetime (days)'), {
+            defaultValue: 5,
+            minValue: 1,
+            maxValue: 100,
+            deleteEmpty: true,
+        });
+
         me.add_integer_row('conn_count_limit', gettext('Client Connection Count Limit'), {
             defaultValue: 50,
             minValue: 0,
