@@ -20,6 +20,7 @@ Ext.define('pmg-spam-list', {
         'from',
         'sender',
         'receiver',
+        'pmail',
         'subject',
         { type: 'number', name: 'spamlevel' },
         { type: 'number', name: 'score-positive' },
@@ -91,9 +92,92 @@ Ext.define('PMG.SpamQuarantineController', {
         event.stopEvent();
         let me = this;
         let list = me.lookup('list');
-        Ext.create('PMG.menu.SpamContextMenu', {
-            callback: (action) => me.doAction(action, list.getSelection()),
-        }).showAt(event.getXY());
+        let menu = Ext.create('PMG.menu.SpamContextMenu', {
+            callback: (action) => {
+                if (action === 'copy-login-link') {
+                    me.copyQuarantineLink(list.getSelection());
+                } else {
+                    me.doAction(action, list.getSelection());
+                }
+            },
+        });
+        // minting a login link needs admin/qmanager, so hide it from end users that
+        // are logged into their own quarantine through the '@quarantine' realm
+        if (!Proxmox.UserName.endsWith('@quarantine')) {
+            menu.down('#copyLoginLinkSep').setHidden(false);
+            menu.down('#copyLoginLink').setHidden(false);
+        }
+        menu.showAt(event.getXY());
+    },
+
+    copyQuarantineLink: function (selection) {
+        let rec = selection[0];
+        if (!rec) {
+            return;
+        }
+        // the quarantine is keyed by pmail; the per-mail receiver may be an alias
+        let mail = rec.get('pmail') || rec.get('receiver');
+        Proxmox.Utils.API2Request({
+            url: '/quarantine/link',
+            method: 'GET',
+            params: { mail },
+            failure: (response) => Ext.Msg.alert(gettext('Error'), response.htmlStatus),
+            success: function (response) {
+                let link = response.result.data.link;
+                Ext.create('Ext.window.Window', {
+                    title: gettext('Quarantine Login Link'),
+                    modal: true,
+                    width: 600,
+                    layout: 'fit',
+                    bodyPadding: 10,
+                    items: [
+                        {
+                            xtype: 'form',
+                            border: false,
+                            layout: 'anchor',
+                            items: [
+                                {
+                                    xtype: 'displayfield',
+                                    userCls: 'pmx-hint',
+                                    value: Ext.String.format(
+                                        gettext(
+                                            'Anyone with this link gains full access to the quarantine of {0}. Only share it with the legitimate recipient.',
+                                        ),
+                                        Ext.htmlEncode(mail),
+                                    ),
+                                },
+                                {
+                                    xtype: 'textfield',
+                                    inputId: 'pmgQuarantineLinkValue',
+                                    fieldLabel: gettext('Login Link'),
+                                    labelAlign: 'top',
+                                    anchor: '100%',
+                                    editable: false,
+                                    value: link,
+                                },
+                            ],
+                        },
+                    ],
+                    buttons: [
+                        {
+                            text: gettext('Copy Link'),
+                            iconCls: 'fa fa-clipboard',
+                            handler: function (btn) {
+                                let field = document.getElementById('pmgQuarantineLinkValue');
+                                field.select();
+                                document.execCommand('copy');
+                                btn.up('window').close();
+                            },
+                        },
+                        {
+                            text: gettext('Close'),
+                            handler: (btn) => btn.up('window').close(),
+                        },
+                    ],
+                    autoShow: true,
+                });
+            },
+        });
     },
 
     keyPress: function (table, record, item, index, event) {

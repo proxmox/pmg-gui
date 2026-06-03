@@ -40,5 +40,14 @@ Ext.define('PMG.menu.SpamContextMenu', {
             action: 'mark-unseen',
             handler: 'callCallback',
         },
+        { xtype: 'menuseparator', itemId: 'copyLoginLinkSep', hidden: true },
+        {
+            text: gettext('Copy Login Link'),
+            iconCls: 'fa fa-fw fa-link',
+            action: 'copy-login-link',
+            handler: 'callCallback',
+            itemId: 'copyLoginLink',
+            hidden: true,
+        },
     ],
 });
