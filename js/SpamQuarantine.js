@@ -22,8 +22,8 @@ Ext.define('pmg-spam-list', {
         'receiver',
         'subject',
         { type: 'number', name: 'spamlevel' },
-        { type: 'number', name: 'spamlevel_positive' },
-        { type: 'number', name: 'spamlevel_negative' },
+        { type: 'number', name: 'score-positive' },
+        { type: 'number', name: 'score-negative' },
         { type: 'boolean', name: 'seen' },
         { type: 'integer', name: 'bytes' },
         { type: 'date', dateFormat: 'timestamp', name: 'time' },
@@ -236,8 +236,8 @@ Ext.define('PMG.SpamQuarantine', {
                     // mails where strong negative tests can mask many positive hits
                     renderer: function (value, _meta, rec) {
                         let fmt = (v) => Ext.util.Format.number(v, '0.##');
-                        let pos = rec.get('spamlevel_positive');
-                        let neg = rec.get('spamlevel_negative');
+                        let pos = rec.get('score-positive');
+                        let neg = rec.get('score-negative');
                         if (
                             pos === undefined ||
                             pos === null ||
