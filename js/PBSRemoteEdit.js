@@ -40,6 +40,16 @@ Ext.define('PMG.PBSInputPanel', {
                     allowBlank: false,
                 },
                 {
+                    xtype: 'proxmoxintegerfield',
+                    name: 'port',
+                    fieldLabel: gettext('Port'),
+                    minValue: 1,
+                    maxValue: 65535,
+                    emptyText: '8007',
+                    allowBlank: true,
+                    cbind: { deleteEmpty: '{!isCreate}' },
+                },
+                {
                     xtype: 'pmxDisplayEditField',
                     name: 'datastore',
                     fieldLabel: 'Datastore',
