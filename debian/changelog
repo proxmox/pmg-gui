@@ -1,3 +1,10 @@
+pmg-gui (5.1.1) trixie; urgency=medium
+
+  * spam quarantine: adapt to the renamed 'score-positive' and
+    'score-negative' spam score API fields.
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 03 Jun 2026 02:24:02 +0200
+
 pmg-gui (5.1.0) trixie; urgency=medium
 
   * spam quarantine: allow marking mails as seen, via a context-menu action,
