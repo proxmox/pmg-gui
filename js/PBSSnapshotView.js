@@ -30,6 +30,36 @@ Ext.define('PMG.PBSConfig', {
             }).show();
         },
 
+        verifySnapshot: function (button) {
+            let me = this;
+            let view = me.lookup('snapshotsGrid');
+            let record = view.getSelection()[0];
+            if (!record) {
+                return;
+            }
+            let remote = me.getViewModel().get('remote');
+            let id = record.data['backup-id'];
+            let time = record.data['backup-time'];
+            Proxmox.Utils.API2Request({
+                url: `/nodes/${Proxmox.NodeName}/pbs/${remote}/snapshot/${id}/${time}/verify`,
+                method: 'POST',
+                failure: (response) => Ext.Msg.alert(gettext('Error'), response.htmlStatus),
+                success: function () {
+                    // verification runs as a task on the remote Proxmox Backup
+                    // Server, which cannot be tracked from here, so just inform and
+                    // reload to pick up the new state once the task finished
+                    Ext.toast({
+                        title: gettext('Verify'),
+                        html: gettext('Started verification task on the Proxmox Backup Server.'),
+                        iconCls: 'fa fa-check',
+                        autoCloseDelay: 5000,
+                        closable: true,
+                    });
+                    me.loadSnapshots();
+                },
+            });
+        },
+
         reload: function (grid) {
             let me = this;
             let selection = grid.getSelection();
@@ -226,6 +256,12 @@ Ext.define('PMG.PBSConfig', {
                     xtype: 'proxmoxButton',
                     text: gettext('Restore'),
                     handler: 'restoreSnapshot',
+                    disabled: true,
+                },
+                {
+                    xtype: 'proxmoxButton',
+                    text: gettext('Verify'),
+                    handler: 'verifySnapshot',
                     disabled: true,
                 },
                 {
