@@ -23,11 +23,10 @@ Ext.define('PMG.PBSConfig', {
 
         runBackup: function (button) {
             let me = this;
-            let view = me.lookup('snapshotsGrid');
             let remote = me.getViewModel().get('remote');
             Ext.create('PMG.BackupWindow', {
                 url: `/nodes/${Proxmox.NodeName}/pbs/${remote}/snapshot`,
-                taskDone: () => view.getStore().load(),
+                taskDone: () => me.loadSnapshots(),
             }).show();
         },
 
@@ -35,6 +34,29 @@ Ext.define('PMG.PBSConfig', {
             let me = this;
             let selection = grid.getSelection();
             me.showInfo(grid, selection);
+        },
+
+        // (re)load the snapshot store, masking the grid on failure; a generation
+        // guard prevents a superseded load from clobbering the current view
+        loadSnapshots: function () {
+            let me = this;
+            let snapshotGrid = me.lookup('snapshotsGrid');
+            let generation = (me.snapshotLoadGeneration ?? 0) + 1;
+            me.snapshotLoadGeneration = generation;
+            Proxmox.Utils.setErrorMask(snapshotGrid, true);
+            snapshotGrid.getStore().load({
+                callback: (records, operation, success) => {
+                    if (generation !== me.snapshotLoadGeneration) {
+                        return; // superseded by a newer load
+                    }
+                    if (success) {
+                        Proxmox.Utils.setErrorMask(snapshotGrid, false);
+                    } else {
+                        let msg = Proxmox.Utils.getResponseErrorMessage(operation.getError());
+                        Proxmox.Utils.setErrorMask(snapshotGrid, msg);
+                    }
+                },
+            });
         },
 
         showInfo: function (grid, selected) {
@@ -45,12 +67,12 @@ Ext.define('PMG.PBSConfig', {
                 viewModel.set('selected', true);
                 viewModel.set('remote', remote);
 
-                // set grid stores and load them
-                let remstore = me.lookup('snapshotsGrid').getStore();
-                remstore
+                // set the snapshot store URL and (re)load it
+                me.lookup('snapshotsGrid')
+                    .getStore()
                     .getProxy()
                     .setUrl(`/api2/json/nodes/${Proxmox.NodeName}/pbs/${remote}/snapshot`);
-                remstore.load();
+                me.loadSnapshots();
 
                 let scheduleStore = me.lookup('schedulegrid').rstore;
                 scheduleStore
@@ -78,10 +100,9 @@ Ext.define('PMG.PBSConfig', {
                 }
             });
 
-            let snapshotGrid = me.lookup('snapshotsGrid');
+            // the snapshot grid's load is masked in showInfo() with a generation
+            // guard, so it is intentionally not monitored here
             let schedulegrid = me.lookup('schedulegrid');
-
-            Proxmox.Utils.monStoreErrors(snapshotGrid, snapshotGrid.getStore(), true);
             Proxmox.Utils.monStoreErrors(schedulegrid, schedulegrid.getStore(), true);
         },
 
@@ -231,9 +252,7 @@ Ext.define('PMG.PBSConfig', {
                 {
                     text: gettext('Reload'),
                     iconCls: 'fa fa-refresh',
-                    handler: function () {
-                        this.up('grid').store.load();
-                    },
+                    handler: 'loadSnapshots',
                 },
             ],
             store: {
