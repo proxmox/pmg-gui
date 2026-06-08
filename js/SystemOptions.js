@@ -98,6 +98,7 @@ Ext.define('PMG.SystemOptions', {
             fieldOpts: {
                 maxLength: 64 * 1024,
             },
+            onlineHelp: 'gui_consent_banner',
         });
 
         me.callParent();
