@@ -1,3 +1,30 @@
+pmg-gui (5.1.2) trixie; urgency=medium
+
+  * fix #6547: spam quarantine: show a confirmation after a quarantine link was
+    requested from the login view.
+
+  * fix #7107: spam detector: clarify that only the first part of a mail, up to
+    the maximum spam size, is analyzed for spam.
+
+  * fix #3946: mail proxy: add an option to configure the maximal
+    queue lifetime.
+
+  * fix #3414: spam quarantine: add an action to copy a quarantine login link
+    for the recipient of the selected mail.
+
+  * config backup: improve Proxmox Backup Server integration:
+    - fix #4944: allow setting a non-default port for a remote.
+    - fix #3326: add client-side backup encryption with key management, and
+      show the encryption and verification state of snapshots.
+    - add an action to start a verification of the selected backup snapshot.
+    - fix a stale snapshot load from a previously selected remote masking the
+      snapshot list of the currently selected one.
+
+  * show an optional consent banner before login, rendered from Markdown and
+    configurable through a new 'Consent Text' system option.
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 08 Jun 2026 10:32:54 +0200
+
 pmg-gui (5.1.1) trixie; urgency=medium
 
   * spam quarantine: adapt to the renamed 'score-positive' and
