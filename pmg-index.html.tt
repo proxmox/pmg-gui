@@ -45,6 +45,7 @@
         UserName: '[% username %]',
         CSRFPreventionToken: '[% token %]',
         QuarantineLink: [% IF quarantinelink %] true [% ELSE %] false [% END %],
+        ConsentText: '[% consenttext %]',
       };
     </script>
     <script type="text/javascript" src="/proxmoxlib.js?ver=[% wtversion %]"></script>

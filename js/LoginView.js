@@ -31,6 +31,17 @@ Ext.define('PMG.LoginView', {
             me.lookup('quarantineButton').setVisible(!!Proxmox.QuarantineLink);
 
             if (view.targetview !== 'quarantineview') {
+                if (Proxmox.ConsentText) {
+                    let oidc_auth_redirect = Proxmox.Utils.getOpenIDRedirectionAuthorization();
+                    if (oidc_auth_redirect === undefined) {
+                        Ext.create('Proxmox.window.ConsentModal', {
+                            autoShow: true,
+                            consent: Proxmox.Markdown.parse(
+                                Proxmox.Utils.base64ToUtf8(Proxmox.ConsentText),
+                            ),
+                        });
+                    }
+                }
                 return;
             }
 

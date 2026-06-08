@@ -93,6 +93,13 @@ Ext.define('PMG.SystemOptions', {
 
         me.add_proxy_row('http_proxy', gettext('HTTP proxy'));
 
+        me.add_textareafield_row('consent-text', gettext('Consent Text'), {
+            deleteEmpty: true,
+            fieldOpts: {
+                maxLength: 64 * 1024,
+            },
+        });
+
         me.callParent();
 
         me.on('activate', me.rstore.startUpdate);
