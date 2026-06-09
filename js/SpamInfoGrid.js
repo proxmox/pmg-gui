@@ -28,6 +28,17 @@ Ext.define('PMG.grid.SpamInfoGrid', {
         me.store.load();
     },
 
+    afterRender: function () {
+        let me = this;
+        me.callParent(arguments);
+
+        // keep a long rule list from pushing the mail preview off-screen
+        let cap = () => me.setMaxHeight(Math.floor(Ext.getBody().getViewSize().height / 3));
+        cap();
+        Ext.on('resize', cap, me, { buffer: 100 });
+        me.on('destroy', () => Ext.un('resize', cap, me));
+    },
+
     emptyText: gettext('No Spam Info'),
     hidden: true,
 
