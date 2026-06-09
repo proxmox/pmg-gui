@@ -155,7 +155,6 @@ Ext.define('PMG.VirusQuarantine', {
                         {
                             xtype: 'button',
                             reference: 'download',
-                            text: gettext('Download'),
                             setDownload: function (id) {
                                 this.el.dom.download = id + '.eml';
                             },

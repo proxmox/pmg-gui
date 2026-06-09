@@ -99,18 +99,6 @@ Ext.define('PMG.controller.QuarantineController', {
         me.doAction(action, selected);
     },
 
-    downloadMail: function () {
-        let me = this;
-        let vm = me.getViewModel();
-        let element = document.createElement('a');
-        element.setAttribute('href', vm.get('downloadMailURL'));
-        element.setAttribute('download', `${vm.get('mailid')}.eml`);
-        element.style.display = 'none';
-        document.body.appendChild(element);
-        element.click();
-        document.body.removeChild(element);
-    },
-
     doAction: function (action, selected) {
         if (!selected.length) {
             return;

@@ -410,6 +410,19 @@ Ext.define('PMG.SpamQuarantine', {
                         '->',
                         {
                             xtype: 'button',
+                            reference: 'download',
+                            setDownload: function (id) {
+                                this.el.dom.download = id + '.eml';
+                            },
+                            bind: {
+                                href: '{downloadMailURL}',
+                                download: '{mailid}',
+                            },
+                            iconCls: 'fa fa-download',
+                        },
+                        '-',
+                        {
+                            xtype: 'button',
                             reference: 'markseen',
                             text: gettext('Seen'),
                             enableToggle: true,
@@ -417,40 +430,38 @@ Ext.define('PMG.SpamQuarantine', {
                             tooltip: gettext('Mark this mail as seen or unseen'),
                         },
                         {
+                            xtype: 'splitbutton',
                             reference: 'deliver',
                             text: gettext('Deliver'),
                             iconCls: 'fa fa-paper-plane-o info-blue',
                             handler: 'btnHandler',
+                            menu: {
+                                items: [
+                                    {
+                                        reference: 'welcomelist',
+                                        text: gettext('Welcomelist'),
+                                        iconCls: 'fa fa-check',
+                                        handler: 'btnHandler',
+                                    },
+                                ],
+                            },
                         },
                         {
+                            xtype: 'splitbutton',
                             reference: 'delete',
                             text: gettext('Delete'),
                             iconCls: 'fa fa-trash-o critical',
                             handler: 'btnHandler',
-                        },
-                        {
-                            text: gettext('More'),
-                            iconCls: 'fa fa-bars',
-                            menu: [
-                                {
-                                    reference: 'welcomelist',
-                                    text: gettext('Welcomelist'),
-                                    iconCls: 'fa fa-check',
-                                    handler: 'btnHandler',
-                                },
-                                {
-                                    reference: 'blocklist',
-                                    text: gettext('Blocklist'),
-                                    iconCls: 'fa fa-times',
-                                    handler: 'btnHandler',
-                                },
-                                {
-                                    reference: 'download',
-                                    text: gettext('Download'),
-                                    handler: 'downloadMail',
-                                    iconCls: 'fa fa-download',
-                                },
-                            ],
+                            menu: {
+                                items: [
+                                    {
+                                        reference: 'blocklist',
+                                        text: gettext('Blocklist'),
+                                        iconCls: 'fa fa-times',
+                                        handler: 'btnHandler',
+                                    },
+                                ],
+                            },
                         },
                     ],
                 },
