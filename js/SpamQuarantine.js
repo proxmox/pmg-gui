@@ -53,22 +53,14 @@ Ext.define('PMG.SpamQuarantineController', {
         let me = this;
         // the score breakdown is only meaningful for a single selected mail
         me.lookupReference('spaminfo').setVisible(true);
-
-        // reflect the current mail's seen state on the toggle button
-        let markseen = me.lookupReference('markseen');
-        let seen = !!(rec && rec.data && rec.data.seen);
-        markseen.setDisabled(false);
-        markseen.setPressed(seen);
-        me.setSeenIcon(markseen, seen);
+        me.refreshSeenButton();
 
         me.callParent(arguments);
     },
 
     multiSelect: function (selection) {
         let me = this;
-        let markseen = me.lookupReference('markseen');
-        markseen.setDisabled(true);
-        markseen.setPressed(false);
+        me.refreshSeenButton();
         me.lookupReference('spaminfo').setVisible(false);
         me.callParent(arguments);
     },
@@ -86,6 +78,17 @@ Ext.define('PMG.SpamQuarantineController', {
 
     setSeenIcon: function (btn, seen) {
         btn.setIconCls(seen ? 'fa fa-eye' : 'fa fa-eye-slash');
+    },
+
+    refreshSeenButton: function () {
+        let me = this;
+        let sel = me.lookupReference('list').selModel.getSelection();
+        let single = sel.length === 1;
+        let seen = single && !!sel[0].data.seen;
+        let markseen = me.lookupReference('markseen');
+        markseen.setDisabled(!single);
+        markseen.setPressed(seen);
+        me.setSeenIcon(markseen, seen);
     },
 
     openContextMenu: function (table, record, tr, index, event) {
@@ -217,7 +220,11 @@ Ext.define('PMG.SpamQuarantineController', {
     },
 
     init: function (view) {
-        this.lookup('list').cselect = view.cselect;
+        let me = this;
+        let list = me.lookup('list');
+        list.cselect = view.cselect;
+        // so a keyboard mark (or any record change) refreshes the toolbar too
+        list.getStore().on('update', me.refreshSeenButton, me);
     },
 
     control: {
