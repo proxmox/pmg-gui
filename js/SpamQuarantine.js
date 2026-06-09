@@ -314,7 +314,7 @@ Ext.define('PMG.SpamQuarantine', {
                     header: gettext('Score'),
                     dataIndex: 'spamlevel',
                     align: 'right',
-                    width: 110,
+                    width: 90,
                     // show the net score plus the separate sums of the positive and
                     // negative test scores, which gives a better feel for borderline
                     // mails where strong negative tests can mask many positive hits
@@ -330,7 +330,7 @@ Ext.define('PMG.SpamQuarantine', {
                         ) {
                             return fmt(value);
                         }
-                        return `${fmt(value)} <span style="opacity: 0.7;">(+${fmt(pos)}/${fmt(neg)})</span>`;
+                        return `${fmt(value)}<br><span style="opacity: 0.7; font-size: 90%;">+${fmt(pos)} / ${fmt(neg)}</span>`;
                     },
                 },
                 {
