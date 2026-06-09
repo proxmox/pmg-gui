@@ -116,7 +116,10 @@ Ext.define('PMG.VirusQuarantine', {
                 {
                     xtype: 'toolbar',
                     dock: 'top',
-                    overflowHandler: 'scroller',
+                    overflowHandler: 'menu',
+                    listeners: {
+                        resize: 'onToolbarResize',
+                    },
                     style: {
                         // docked items have set the bottom with to 0px with '! important'
                         // but we still want one here, so we can remove the borders of the grids
@@ -127,6 +130,8 @@ Ext.define('PMG.VirusQuarantine', {
                             xtype: 'button',
                             reference: 'raw',
                             text: gettext('Toggle Raw'),
+                            responsiveText: true,
+                            ariaLabel: gettext('Toggle raw message source'),
                             enableToggle: true,
                             iconCls: 'fa fa-file-code-o',
                         },
@@ -155,6 +160,9 @@ Ext.define('PMG.VirusQuarantine', {
                         {
                             xtype: 'button',
                             reference: 'download',
+                            text: gettext('Download'),
+                            responsiveText: true,
+                            ariaLabel: gettext('Download this mail as .eml'),
                             setDownload: function (id) {
                                 this.el.dom.download = id + '.eml';
                             },

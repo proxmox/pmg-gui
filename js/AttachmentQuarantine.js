@@ -107,13 +107,18 @@ Ext.define('PMG.AttachmentQuarantine', {
             dockedItems: [
                 {
                     xtype: 'toolbar',
-                    overflowHandler: 'scroller',
+                    overflowHandler: 'menu',
                     dock: 'top',
+                    listeners: {
+                        resize: 'onToolbarResize',
+                    },
                     items: [
                         {
                             xtype: 'button',
                             reference: 'raw',
                             text: gettext('Toggle Raw'),
+                            responsiveText: true,
+                            ariaLabel: gettext('Toggle raw message source'),
                             enableToggle: true,
                             iconCls: 'fa fa-file-code-o',
                         },
@@ -132,6 +137,9 @@ Ext.define('PMG.AttachmentQuarantine', {
                         {
                             xtype: 'button',
                             reference: 'download',
+                            text: gettext('Download'),
+                            responsiveText: true,
+                            ariaLabel: gettext('Download this mail as .eml'),
                             setDownload: function (id) {
                                 this.el.dom.download = id + '.eml';
                             },
