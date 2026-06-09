@@ -43,6 +43,7 @@ delete the selected email, or use the following keyboard shortcuts instead:
 * <kbd>Delete</kbd>: Delete the mail.
 * <kbd>B</kbd>: Add the sender to the Blocklist.
 * <kbd>W</kbd>: Add the sender to the Welcomelist.
+* <kbd>S</kbd>: Mark the mail as "seen".
 `,
     ),
 });
