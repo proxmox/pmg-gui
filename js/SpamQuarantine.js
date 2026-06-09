@@ -56,8 +56,10 @@ Ext.define('PMG.SpamQuarantineController', {
 
         // reflect the current mail's seen state on the toggle button
         let markseen = me.lookupReference('markseen');
+        let seen = !!(rec && rec.data && rec.data.seen);
         markseen.setDisabled(false);
-        markseen.setPressed(!!(rec && rec.data && rec.data.seen));
+        markseen.setPressed(seen);
+        me.setSeenIcon(markseen, seen);
 
         me.callParent(arguments);
     },
@@ -78,7 +80,12 @@ Ext.define('PMG.SpamQuarantineController', {
             return;
         }
         // the toggle button already flipped, so its state is the desired one
+        me.setSeenIcon(btn, btn.pressed);
         me.doAction(btn.pressed ? 'mark-seen' : 'mark-unseen', [rec]);
+    },
+
+    setSeenIcon: function (btn, seen) {
+        btn.setIconCls(seen ? 'fa fa-eye' : 'fa fa-eye-slash');
     },
 
     openContextMenu: function (table, record, tr, index, event) {
