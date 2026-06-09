@@ -117,6 +117,7 @@ Ext.define('PMG.AttachmentQuarantine', {
                             xtype: 'button',
                             reference: 'raw',
                             text: gettext('Toggle Raw'),
+                            tooltip: gettext('Show the raw message source instead of the rendered mail'),
                             responsiveText: true,
                             ariaLabel: gettext('Toggle raw message source'),
                             enableToggle: true,
@@ -138,6 +139,7 @@ Ext.define('PMG.AttachmentQuarantine', {
                             xtype: 'button',
                             reference: 'download',
                             text: gettext('Download'),
+                            tooltip: gettext('Download this mail as an .eml file'),
                             responsiveText: true,
                             ariaLabel: gettext('Download this mail as .eml'),
                             setDownload: function (id) {
@@ -152,12 +154,14 @@ Ext.define('PMG.AttachmentQuarantine', {
                         {
                             reference: 'deliver',
                             text: gettext('Deliver'),
+                            tooltip: gettext('Release this mail to its recipient'),
                             iconCls: 'fa fa-paper-plane-o info-blue',
                             handler: 'btnHandler',
                         },
                         {
                             reference: 'delete',
                             text: gettext('Delete'),
+                            tooltip: gettext('Permanently delete this quarantined mail'),
                             iconCls: 'fa fa-trash-o critical',
                             handler: 'btnHandler',
                         },
