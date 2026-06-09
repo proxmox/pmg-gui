@@ -51,7 +51,8 @@ Ext.define('PMG.SpamQuarantineController', {
 
     updatePreview: function (raw, rec) {
         let me = this;
-        me.lookupReference('spam').setDisabled(false);
+        // the score breakdown is only meaningful for a single selected mail
+        me.lookupReference('spaminfo').setVisible(true);
 
         // reflect the current mail's seen state on the toggle button
         let markseen = me.lookupReference('markseen');
@@ -63,19 +64,11 @@ Ext.define('PMG.SpamQuarantineController', {
 
     multiSelect: function (selection) {
         let me = this;
-        let spam = me.lookupReference('spam');
-        spam.setDisabled(true);
-        spam.setPressed(false);
         let markseen = me.lookupReference('markseen');
         markseen.setDisabled(true);
         markseen.setPressed(false);
         me.lookupReference('spaminfo').setVisible(false);
         me.callParent(arguments);
-    },
-
-    toggleSpamInfo: function (btn) {
-        var grid = this.lookupReference('spaminfo');
-        grid.setVisible(!grid.isVisible());
     },
 
     toggleSeen: function (btn) {
@@ -227,9 +220,6 @@ Ext.define('PMG.SpamQuarantineController', {
         },
         'button[reference=loadimages]': {
             click: 'toggleImages',
-        },
-        'button[reference=spam]': {
-            click: 'toggleSpamInfo',
         },
         'button[reference=markseen]': {
             click: 'toggleSeen',
@@ -385,13 +375,6 @@ Ext.define('PMG.SpamQuarantine', {
                         },
                         {
                             xtype: 'button',
-                            reference: 'spam',
-                            text: gettext('Toggle Spam Info'),
-                            enableToggle: true,
-                            iconCls: 'fa fa-bullhorn',
-                        },
-                        {
-                            xtype: 'button',
                             reference: 'loadimages',
                             text: gettext('Load Images'),
                             enableToggle: true,
@@ -473,6 +456,7 @@ Ext.define('PMG.SpamQuarantine', {
                     xtype: 'pmgSpamInfoGrid',
                     reference: 'spaminfo',
                     border: false,
+                    dock: 'bottom',
                 },
                 {
                     xtype: 'pmgMailInfo',

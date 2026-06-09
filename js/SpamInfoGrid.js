@@ -2,6 +2,11 @@ Ext.define('PMG.grid.SpamInfoGrid', {
     extend: 'Ext.grid.GridPanel',
     xtype: 'pmgSpamInfoGrid',
 
+    title: gettext('Spam Score Breakdown'),
+    iconCls: 'fa fa-bullhorn',
+    collapsible: true,
+    titleCollapse: true,
+
     store: {
         autoDestroy: true,
         fields: ['desc', 'name', { type: 'number', name: 'score' }],
