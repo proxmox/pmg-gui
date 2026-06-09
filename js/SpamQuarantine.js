@@ -204,11 +204,10 @@ Ext.define('PMG.SpamQuarantineController', {
                 break;
             case Ext.event.Event.S:
             case Ext.event.Event.S + 32:
-                action = 'mark-seen';
-                break;
-            case Ext.event.Event.U:
-            case Ext.event.Event.U + 32:
-                action = 'mark-unseen';
+                // mirror the Seen button: toggle the selection's seen state
+                action = list.getSelection().every((r) => r.data.seen)
+                    ? 'mark-unseen'
+                    : 'mark-seen';
                 break;
         }
 
