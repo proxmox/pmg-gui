@@ -1,3 +1,28 @@
+pmg-gui (5.2.0) trixie; urgency=medium
+
+  * spam, virus and attachment quarantine: rework the preview toolbar so the
+    action buttons keep their labels when there is room and shrink to
+    icon-only on a narrow pane, with descriptive tooltips and ARIA labels for
+    accessibility.
+
+  * spam quarantine: present the per-test spam-score breakdown as a
+    collapsible panel below the mail preview, and show each mail's score with
+    its separate positive and negative sums on a second line for a clearer
+    read of borderline mail.
+
+  * spam quarantine: indicate the seen state with an open or slashed eye icon
+    and let the "S" keyboard shortcut toggle it, replacing the separate keys
+    for marking a mail seen and unseen.
+
+  * fix #5076: OpenID Connect realm: add an optional audiences field which
+    allows users to configure additional OIDC audiences that may be provided
+    by the OIDC realm.
+
+  * config backup: PBS snapshot view: set a fixed width for the verify-result
+    toast.
+
+ -- Proxmox Support Team <support@proxmox.com>  Tue, 09 Jun 2026 16:14:16 +0200
+
 pmg-gui (5.1.2) trixie; urgency=medium
 
   * fix #6547: spam quarantine: show a confirmation after a quarantine link was
