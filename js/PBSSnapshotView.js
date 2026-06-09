@@ -51,6 +51,7 @@ Ext.define('PMG.PBSConfig', {
                     Ext.toast({
                         title: gettext('Verify'),
                         html: gettext('Started verification task on the Proxmox Backup Server.'),
+                        width: 350,
                         iconCls: 'fa fa-check',
                         autoCloseDelay: 5000,
                         closable: true,
