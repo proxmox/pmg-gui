@@ -244,5 +244,14 @@ Ext.define('PMG.OIDCInputPanel', {
                 deleteEmpty: '{!isCreate}',
             },
         },
+        {
+            xtype: 'proxmoxtextfield',
+            name: 'audiences',
+            fieldLabel: gettext('Audiences'),
+            submitEmpty: false,
+            cbind: {
+                deleteEmpty: '{!isCreate}',
+            },
+        },
     ],
 });
