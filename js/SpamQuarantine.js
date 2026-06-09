@@ -206,6 +206,10 @@ Ext.define('PMG.SpamQuarantineController', {
             case Ext.event.Event.S + 32:
                 action = 'mark-seen';
                 break;
+            case Ext.event.Event.U:
+            case Ext.event.Event.U + 32:
+                action = 'mark-unseen';
+                break;
         }
 
         if (action !== '') {
