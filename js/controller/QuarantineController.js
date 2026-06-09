@@ -2,6 +2,24 @@ Ext.define('PMG.controller.QuarantineController', {
     extend: 'Ext.app.ViewController',
     alias: 'controller.quarantine',
 
+    // preview-toolbar width below which buttons shed their text labels
+    toolbarCompactWidth: 900,
+
+    onToolbarResize: function (toolbar, width) {
+        let me = this;
+        let compact = width < me.toolbarCompactWidth;
+        if (toolbar.isCompact === compact) {
+            return;
+        }
+        toolbar.isCompact = compact;
+        for (let btn of toolbar.query('button[responsiveText]')) {
+            if (btn.fullText === undefined) {
+                btn.fullText = btn.getText() || '';
+            }
+            btn.setText(compact ? '' : btn.fullText);
+        }
+    },
+
     updatePreview: function (raw, rec) {
         let preview = this.lookupReference('preview');
 
