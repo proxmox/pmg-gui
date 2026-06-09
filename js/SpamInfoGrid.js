@@ -6,6 +6,7 @@ Ext.define('PMG.grid.SpamInfoGrid', {
     iconCls: 'fa fa-bullhorn',
     collapsible: true,
     titleCollapse: true,
+    animCollapse: false,
 
     store: {
         autoDestroy: true,

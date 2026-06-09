@@ -14,6 +14,7 @@ Ext.define('PMG.grid.AttachmentGrid', {
 
     collapsible: true,
     titleCollapse: true,
+    animCollapse: false,
 
     tbar: [
         '->',
