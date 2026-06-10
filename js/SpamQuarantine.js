@@ -372,7 +372,7 @@ Ext.define('PMG.SpamQuarantine', {
                 {
                     xtype: 'toolbar',
                     dock: 'top',
-                    overflowHandler: 'menu',
+                    overflowHandler: 'scroller',
                     listeners: {
                         resize: 'onToolbarResize',
                     },

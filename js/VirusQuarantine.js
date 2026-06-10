@@ -116,7 +116,7 @@ Ext.define('PMG.VirusQuarantine', {
                 {
                     xtype: 'toolbar',
                     dock: 'top',
-                    overflowHandler: 'menu',
+                    overflowHandler: 'scroller',
                     listeners: {
                         resize: 'onToolbarResize',
                     },
