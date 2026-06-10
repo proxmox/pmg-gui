@@ -1,3 +1,17 @@
+pmg-gui (5.2.1) trixie; urgency=medium
+
+  * quarantine: use a scrolling preview toolbar on a narrow pane instead of a
+    dropdown overflow menu, fixing an exception when downloading a mail from
+    that menu and a large empty gap before the menu button.
+
+  * mail proxy: expose the option to log mail header information in the GUI,
+    with a hint about its data-protection implications.
+
+  * config backup: avoid showing a second loading spinner on the Proxmox
+    Backup Server snapshot grid.
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 10 Jun 2026 19:25:56 +0200
+
 pmg-gui (5.2.0) trixie; urgency=medium
 
   * spam, virus and attachment quarantine: rework the preview toolbar so the
