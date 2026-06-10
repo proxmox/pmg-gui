@@ -61,6 +61,20 @@ Ext.define('PMG.MailProxyOptions', {
 
         me.add_boolean_row('hide_received', gettext('Hide Internal Hosts'));
 
+        me.add_boolean_row('log-headers', gettext('Log Header Information'), {
+            onlineHelp: 'pmgconfig_mailproxy_log_headers',
+        });
+        me.rows['log-headers'].editor.items = [
+            me.rows['log-headers'].editor.items,
+            {
+                xtype: 'displayfield',
+                userCls: 'pmx-hint',
+                value: gettext(
+                    'The logged headers and addresses can contain personal data. Make sure this complies with your data-protection obligations before enabling.',
+                ),
+            },
+        ];
+
         me.add_integer_row('dwarning', gettext('Delay Warning Time (hours)'), {
             defaultValue: 4,
             minValue: 0,
