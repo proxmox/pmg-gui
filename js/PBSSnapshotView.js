@@ -246,6 +246,8 @@ Ext.define('PMG.PBSConfig', {
             border: false,
             split: true,
             hidden: true,
+            // loadSnapshots() drives its own load/error mask; avoid the view's second spinner
+            viewConfig: { loadMask: false },
             emptyText: gettext('No backups on remote'),
             tbar: [
                 {
