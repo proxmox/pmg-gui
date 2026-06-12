@@ -91,6 +91,12 @@ Ext.define('PMG.SystemOptions', {
             renderer: Ext.htmlEncode,
         });
 
+        me.add_text_row('log-tracker-base', gettext("Maillog base name"), {
+            deleteEmpty: true,
+            defaultValue: '/var/log/syslog',
+            renderer: Ext.htmlEncode,
+        });
+
         me.add_proxy_row('http_proxy', gettext('HTTP proxy'));
 
         me.add_textareafield_row('consent-text', gettext('Consent Text'), {
