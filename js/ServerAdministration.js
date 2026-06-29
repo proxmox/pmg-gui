@@ -27,6 +27,7 @@ Ext.define('PMG.ServerAdministration', {
             title: gettext('Services'),
             itemId: 'services',
             iconCls: 'fa fa-cogs',
+            useJournalLog: true,
             startOnlyServices: {
                 syslog: true,
                 pmgproxy: true,
@@ -65,6 +66,7 @@ Ext.define('PMG.ServerAdministration', {
             iconCls: 'fa fa-list',
             title: gettext('Syslog'),
             url: '/api2/extjs/nodes/' + Proxmox.NodeName + '/journal',
+            structured: true,
         },
         {
             xtype: 'proxmoxNodeTasks',
