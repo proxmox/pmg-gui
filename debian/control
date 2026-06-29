@@ -14,7 +14,7 @@ Depends: fonts-font-awesome,
          libjs-extjs (>= 6.0.1),
          libjs-qrcodejs (>= 1.20201119),
          pmg-i18n,
-         proxmox-widget-toolkit (>= 5.2.1),
+         proxmox-widget-toolkit (>= 5.2.6),
          ${misc:Depends},
 Description: Proxmox Mail Gateway web interface
  Graphical user interface for the Proxmox Mail Gateway.
