@@ -1,3 +1,16 @@
+pmg-gui (5.2.2) trixie; urgency=medium
+
+  * fix #3657: system options: add log-tracker-base textrow to make
+    the log-base for the Tracking Center configurable.
+
+  * ui: enable the structured journal view and per-service logs, allows
+    filtering for priority and coloring.
+
+  * css: remove x-grid-row-loading class to use the improved implementation
+    from proxmox-widget-toolkit.
+
+ -- Proxmox Support Team <support@proxmox.com>  Fri, 24 Jul 2026 12:16:33 +0200
+
 pmg-gui (5.2.1) trixie; urgency=medium
 
   * quarantine: use a scrolling preview toolbar on a narrow pane instead of a
