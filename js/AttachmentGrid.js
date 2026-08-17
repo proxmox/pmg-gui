@@ -109,6 +109,7 @@ Ext.define('PMG.grid.AttachmentGrid', {
         {
             text: gettext('Filename'),
             dataIndex: 'name',
+            renderer: Ext.htmlEncode,
             flex: 1,
         },
         {
@@ -130,8 +131,9 @@ Ext.define('PMG.grid.AttachmentGrid', {
             },
             renderer: function (value, mD, rec) {
                 var me = this;
+                var download_name = Ext.htmlEncode(rec.data.name);
                 let url = `/api2/json/quarantine/download?mailid=${me.mailid}&attachmentid=${rec.data.id}`;
-                return `<a target='_blank' class='download' download='${rec.data.name}' href='${url}'>
+                return `<a target='_blank' class='download' download='${download_name}' href='${url}'>
 		    <i class='fa fa-fw fa-download'</i>
 		</a>`;
             },
