@@ -1,3 +1,10 @@
+pmg-gui (4.2.3) bookworm; urgency=medium
+
+  * add notice for nearing PMG 8 End-of-Support as additional hint for users
+    to upgrade better sooner than later.
+
+ -- Proxmox Support Team <support@proxmox.com>  Thu, 20 Aug 2026 13:52:11 +0200
+
 pmg-gui (4.2.2) bookworm; urgency=medium
 
   * mail proxy: add checkbox for new 'accept-broken-mime' option.
