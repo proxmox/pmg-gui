@@ -832,7 +832,7 @@ Ext.define('PMG.Utils', {
             return `<i class='fa ${iconCls}'></i> ${text}`;
         }
 
-        text = value.toString().toLowerCase();
+        text = Ext.htmlEncode(value.toString().toLowerCase());
         const type = text.split('/')[0];
 
         switch (type) {
