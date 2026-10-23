@@ -61,6 +61,13 @@ Ext.define('PMG.ServerAdministration', {
             onlineHelp: 'pmg_package_repositories',
         },
         {
+            xtype: 'proxmoxNodeAPTHistory',
+            title: gettext('Update History'),
+            itemId: 'apthistory',
+            iconCls: 'fa fa-history',
+            nodename: Proxmox.NodeName,
+        },
+        {
             xtype: 'proxmoxJournalView',
             itemId: 'logs',
             iconCls: 'fa fa-list',
