@@ -37,6 +37,7 @@ Ext.define('PMG.ServerAdministration', {
         },
         {
             xtype: 'proxmoxNodeAPT',
+            canShowUpdateChangelogs: true,
             title: gettext('Updates'),
             iconCls: 'fa fa-refresh',
             upgradeBtn: {
