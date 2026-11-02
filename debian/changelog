@@ -1,3 +1,11 @@
+pmg-gui (5.2.4) trixie; urgency=medium
+
+  * index: escape single-quotes in consent-text
+
+  * attachment grid: encode content-type field
+
+ -- Proxmox Support Team <support@proxmox.com>  Mon, 02 Nov 2026 11:22:29 +0100
+
 pmg-gui (5.2.3) trixie; urgency=medium
 
   * attachment grid: encode filename field
