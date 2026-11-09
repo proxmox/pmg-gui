@@ -266,6 +266,7 @@ Ext.define('PMG.panel.PBSEncryptionKeyTab', {
         {
             xtype: 'displayfield',
             name: 'crypt-key-fp',
+            htmlEncode: false,
             fieldLabel: gettext('Encryption Key'),
             padding: '2 0',
         },

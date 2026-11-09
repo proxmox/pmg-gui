@@ -146,7 +146,7 @@ Ext.define('PMG.SpamQuarantineController', {
                                         gettext(
                                             'Anyone with this link gains full access to the quarantine of {0}. Only share it with the legitimate recipient.',
                                         ),
-                                        Ext.htmlEncode(mail),
+                                        mail,
                                     ),
                                 },
                                 {
