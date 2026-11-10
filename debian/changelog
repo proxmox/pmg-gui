@@ -1,3 +1,14 @@
+pmg-gui (5.2.5) trixie; urgency=medium
+
+  * PBS remotes: encode the short fingerprint of the encryption key.
+
+  * adapt to read-only display fields encoding their value by default, so
+    that the encryption key status of PBS remotes is not shown as raw markup,
+    and saved user names and quarantine login link hints are not encoded
+    twice.
+
+ -- Proxmox Support Team <support@proxmox.com>  Tue, 10 Nov 2026 23:18:41 +0100
+
 pmg-gui (5.2.4) trixie; urgency=medium
 
   * index: escape single-quotes in consent-text
