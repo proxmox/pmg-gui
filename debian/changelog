@@ -1,3 +1,18 @@
+pmg-gui (5.2.6) trixie; urgency=medium
+
+  * server administration: add an update history panel next to the updates
+    and repositories, listing the past APT transactions of the node with
+    when and how they were invoked, what they changed and whether they
+    failed, with their terminal output and the changelogs of the changed
+    packages. This helps to find the update that could have caused a
+    regression, or what happened during a failed upgrade.
+
+  * updates: add a view of the changelogs of all pending updates at once,
+    grouped by source package and limited to the new versions, to see what
+    an upgrade brings before installing it.
+
+ -- Proxmox Support Team <support@proxmox.com>  Wed, 18 Nov 2026 02:40:02 +0100
+
 pmg-gui (5.2.5) trixie; urgency=medium
 
   * PBS remotes: encode the short fingerprint of the encryption key.
